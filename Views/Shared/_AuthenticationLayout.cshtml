@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/AuthenticationLayout.css" asp-append-version="true" />
+    @await RenderSectionAsync("Scripts", required: false)
+</head>
+<body>
+
+    <header>
+        <!--Navabar-->
+        <nav class="navbar bg-primary navbar-expand-lg" data-bs-theme="dark">
+            <div class="container-fluid">
+                <!-- Navbar Brand -->
+                <a class="navbar-brand">Chill's Restaurant</a>
+                <!-- Toggle Button para dispositivos móviles -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <!-- Elementos del Navbar -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <!-- Enlace "Register" -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("SignUp","Account")">Sign Up</a>
+                        </li>
+                        <!-- Enlace "Login" -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Login","Account", new {returnUrl = "/"})">Login</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container-fluid maincontainer">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="footer text-muted">
+        <div class="container">
+            &copy; 2023 - Chill's Restaurant - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</body>
+</html>

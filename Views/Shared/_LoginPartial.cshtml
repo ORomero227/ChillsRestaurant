@@ -1,0 +1,7 @@
+﻿
+<li class="nav-item">
+    @if (User?.Identity?.IsAuthenticated != false)
+    {
+        <a asp-controller="Account" asp-action="Logout" class="nav-link text-dark">Logout</a>
+    }
+</li>

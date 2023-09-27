@@ -1,0 +1,90 @@
+﻿body {
+}
+
+.maincontainer {
+    position: relative;
+    margin-bottom: 100px;
+}
+
+/*--------------------------------------
+/*              Navbar
+--------------------------------------*/
+
+.navbar-brand {
+    color: #fff;
+    font-family: 'Roboto',Arial;
+    font-weight: 500;
+}
+
+.nav-link {
+    color: #fff;
+    font-family: 'Roboto',Arial;
+    font-weight: 500;
+}
+
+.nav-link:hover {
+    color: #000;
+}
+
+/*--------------------------------------
+/*              Main Title
+--------------------------------------*/
+
+#MainTitle {
+    margin-top: 70px;
+    font-family: 'Roboto',Arial;
+    font-weight: bold;
+    text-align: center;
+}
+
+/*--------------------------------------
+/*              Form
+--------------------------------------*/
+
+#forms-section {
+    /*box-shadow: #000 0px 10px 80px;*/
+    padding: 50px;
+}
+    
+#forms-section h2 {
+    color: #fff;
+}
+
+
+.form-floating .form-label {
+    color: #000;
+}
+
+.form-check-label {
+    color: #fff;
+}
+
+
+#rememberme-label {
+    color: #000;
+}
+
+.invalid-input-msg {
+    color: red;
+    font-weight: 500;
+}
+
+.validation-summary ul {
+    list-style-type: none;
+    color: red;
+    font-weight: 500;
+}
+
+.validation-summary li {
+    margin-left: 0px;
+}
+/*--------------------------------------
+/*              Footer
+--------------------------------------*/
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
+}

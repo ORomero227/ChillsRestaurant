@@ -1,0 +1,63 @@
+﻿@model Login
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_AuthenticationLayout.cshtml";
+}
+
+
+<div class="container">
+    <div class="row justify-content-center">
+
+        <h3 id="MainTitle">Login</h3>
+
+        @if (TempData["SignUpConfirm"] != null)
+        {
+            <div class="container alert alert-success" role="alert">
+                @TempData["SignUpConfirm"]
+            </div>
+        }
+
+        @if (TempData["UserEmail"] != null)
+        {
+            <p>
+                Please confirm your email
+                <a href="@Url.Action("ConfirmEmailAndPhoneLink","Account",new {email =  TempData["UserEmail"]})">Confirm</a>
+            </p>
+        }
+
+        <section id="forms-section" class="col-md-6">
+            <form id="account" method="post">
+                <div asp-validation-summary="All" class="text-danger" role="alert"></div>
+                <div class="form-floating mb-3">
+                    <input asp-for="@Model.UserName" 
+                           class="form-control" 
+                           type="text"
+                           autocomplete="off" 
+                           autofocus 
+                           aria-required="true" 
+                           placeholder="name@example.com" />
+                    <label asp-for="@Model.UserName" class="form-label">Username</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="@Model.Password" 
+                           class="form-control"
+                           type="password"
+                           autocomplete="off" 
+                           aria-required="true" 
+                           placeholder="password" />
+                    <label asp-for="@Model.Password" class="form-label">Password</label>
+                </div>
+                <div>
+                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary mb-3">Log in</button>
+                </div>
+                <div>
+                    @*<p>
+                    <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
+                    </p>*@
+                    <a href="@Url.Action("SignUp","Account")">Don't have an account? Create one here!</a>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+

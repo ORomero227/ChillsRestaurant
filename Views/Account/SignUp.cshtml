@@ -1,0 +1,97 @@
+﻿@model User
+@{
+    ViewData["Title"] = "Sign Up";
+    Layout = "~/Views/Shared/_AuthenticationLayout.cshtml";
+}
+
+<h3 id="MainTitle">Creating User</h3>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <section id="forms-section" class="col-md-8">
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <form asp-action="SignUp">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label asp-for="Name" class="form-label">Name<span class="text-danger">*</span></label>
+                            <input asp-for="Name"
+                                   type="text"
+                                   class="form-control"
+                                   id="nameInput"
+                                   autocomplete="on"
+                                   maxlength="20"
+                                   placeholder="Name" />
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="PrimaryPhoneNumber">Primary Phone Number<span class="text-danger">*</span></label>
+                            <input asp-for="PrimaryPhoneNumber"
+                                   class="form-control"
+                                   id="phoneNumberInput"
+                                   autocomplete="on"
+                                   placeholder="000-000-0000"
+                                   onblur="phonenumberFormat(this)" />
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="SecondaryPhoneNumber">Secondary Phone Number</label>
+                            <input asp-for="SecondaryPhoneNumber"
+                                   type="text"
+                                   class="form-control"
+                                   id="phoneNumberInput"
+                                   autocomplete="on"
+                                   placeholder="000-000-0000"
+                                   maxlength="12"
+                                   oninput="phonenumberFormat(this)" />
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="Address"></label>
+                            <input asp-for="Address"
+                                   type="text"
+                                   class="form-control"
+                                   id="addressInput"
+                                   autocomplete="off"
+                                   placeholder="Street Address" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 mt-2">
+                        <div class="form-group mb-3">
+                            <label asp-for="Photo"></label>
+                            <input asp-for="Photo" class="form-control" />
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="Username">Username<span class="text-danger">*</span></label>
+                            <input asp-for="Username"
+                                    type="text"
+                                    class="form-control"
+                                    id="usernameInput"
+                                    placeholder="Username" />
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="Email">Email<span class="text-danger">*</span></label>
+                            <input asp-for="Email"
+                                    type="email"
+                                    class="form-control"
+                                    id="emailInput"
+                                    placeholder="example@gmail.com" />
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="Password">Password<span class="text-danger">*</span></label>
+                            <input asp-for="Password"
+                                    type="password"
+                                    class="form-control"
+                                    id="passwordInput"
+                                    placeholder="Password"  />
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-success">Sign Up</button>
+            </form>
+        </section>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/PhoneNumberFormat.js"></script>
+}
