@@ -76,8 +76,30 @@ namespace ChillsRestaurant.Controllers
         #endregion
 
         #region SignUp Actions
+        public List<string> GetProfileAvatars()
+        {
+            List<string> profileAvatars = new List<string>
+            {
+                "avatar-men1.png",
+                "avatar-men2.png",
+                "avatar-men3.png",
+                "avatar-woman1.png",
+                "avatar-woman2.png",
+                "avatar-woman3.png",
+            };
+
+            return profileAvatars;
+        }
+
+
         [HttpGet]
-        public IActionResult SignUp() { return View(); }
+        public IActionResult SignUp() 
+        {
+
+            ViewBag.ProfileAvatars = GetProfileAvatars();
+
+            return View(); 
+        }
 
         private bool InputContainsAdminWord(string input)
         {
@@ -87,6 +109,9 @@ namespace ChillsRestaurant.Controllers
         [HttpPost]
         public async Task<IActionResult> SignUp(User user)
         {
+
+            ViewBag.ProfileAvatars = GetProfileAvatars();
+
             if (ModelState.IsValid)
             {
                 if (InputContainsAdminWord(user.Username))
@@ -135,7 +160,7 @@ namespace ChillsRestaurant.Controllers
 
                 if (result.Succeeded)
                 {
-                    return View("ConfirmEmailAndPhone", applicationUser);
+                    return View("ConfirmAccount", applicationUser);
                 }
                 else
                 {
@@ -150,15 +175,15 @@ namespace ChillsRestaurant.Controllers
         }
         #endregion
 
-        #region Confirm Email and Phone
+        #region Confirm Account
         [HttpGet]
-        public IActionResult ConfirmEmailAndPhone(ApplicationUser model)
+        public IActionResult ConfirmAccount(ApplicationUser model)
         {
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> ConfirmEmailAndPhonePost(ApplicationUser model)
+        public async Task<IActionResult> ConfirmAccountPost(ApplicationUser model)
         {
             if (model != null && !string.IsNullOrEmpty(model.Email) && !string.IsNullOrEmpty(model.PhoneNumber))
             {
@@ -180,14 +205,14 @@ namespace ChillsRestaurant.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ConfirmEmailAndPhoneLink(string email)
+        public async Task<IActionResult> ConfirmAccountLink(string email)
         {
             if (email != null)
             {
                 var user = await _userManager.FindByEmailAsync (email);
                 if (user != null)
                 {
-                    return View("ConfirmEmailAndPhone",user);
+                    return View("ConfirmAccount",user);
                 }
             }
 

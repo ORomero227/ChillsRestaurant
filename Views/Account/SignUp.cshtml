@@ -4,94 +4,129 @@
     Layout = "~/Views/Shared/_AuthenticationLayout.cshtml";
 }
 
-<h3 id="MainTitle">Creating User</h3>
 
-<div class="container">
-    <div class="row justify-content-center">
-        <section id="forms-section" class="col-md-8">
-            <div asp-validation-summary="All" class="text-danger"></div>
 
-            <form asp-action="SignUp">
+<div class="container-fluid maincontainer">
+    
+    <div class="container-fluid mb-5">
+        <h3 id="MainTitle">Creating User</h3>
+    </div>
+
+    
+    <section>
+        <div class="container-fluid">
+            <form asp-action="SignUp" asp-controller="Account" method="post">
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group mb-3">
-                            <label asp-for="Name" class="form-label">Name<span class="text-danger">*</span></label>
-                            <input asp-for="Name"
-                                   type="text"
-                                   class="form-control"
-                                   id="nameInput"
-                                   autocomplete="on"
-                                   maxlength="20"
-                                   placeholder="Name" />
+                    <!--Informacion de la cuenta-->
+                    <div class="col-sm-12 col-md-8 me-5">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group mb-3">
+                                    <label asp-for="Name" class="form-label">Name<span class="text-danger">*</span></label>
+                                    <input asp-for="Name"
+                                           type="text"
+                                           class="form-control"
+                                           id="nameInput"
+                                           autocomplete="on"
+                                           maxlength="20"
+                                           placeholder="Name" />
+                                </div>
+                                <div class="mb-3">
+                                    <label asp-for="PrimaryPhoneNumber">Primary Phone Number<span class="text-danger">*</span></label>
+                                    <input asp-for="PrimaryPhoneNumber"
+                                           class="form-control"
+                                           id="phoneNumberInput"
+                                           autocomplete="on"
+                                           placeholder="000-000-0000"
+                                           onblur="phonenumberFormat(this)" />
+                                </div>
+                                <div class="mb-3">
+                                    <label asp-for="SecondaryPhoneNumber">Secondary Phone Number</label>
+                                    <input asp-for="SecondaryPhoneNumber"
+                                           type="text"
+                                           class="form-control"
+                                           id="phoneNumberInput"
+                                           autocomplete="on"
+                                           placeholder="000-000-0000"
+                                           maxlength="12"
+                                           oninput="phonenumberFormat(this)" />
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label asp-for="Address"></label>
+                                    <input asp-for="Address"
+                                           type="text"
+                                           class="form-control"
+                                           id="addressInput"
+                                           autocomplete="off"
+                                           placeholder="Street Address" />
+                                </div>
+                            </div>
+                            <div class="col mt-2">
+                                <div class="form-group mb-3">
+                                    <label asp-for="Username">Username<span class="text-danger">*</span></label>
+                                    <input asp-for="Username"
+                                           type="text"
+                                           class="form-control"
+                                           id="usernameInput"
+                                           placeholder="Username" />
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label asp-for="Email">Email<span class="text-danger">*</span></label>
+                                    <input asp-for="Email"
+                                           type="email"
+                                           class="form-control"
+                                           id="emailInput"
+                                           placeholder="example@gmail.com" />
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label asp-for="Password">Password<span class="text-danger">*</span></label>
+                                    <input asp-for="Password"
+                                           type="password"
+                                           class="form-control"
+                                           id="passwordInput"
+                                           placeholder="Password" />
+                                </div>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label asp-for="PrimaryPhoneNumber">Primary Phone Number<span class="text-danger">*</span></label>
-                            <input asp-for="PrimaryPhoneNumber"
-                                   class="form-control"
-                                   id="phoneNumberInput"
-                                   autocomplete="on"
-                                   placeholder="000-000-0000"
-                                   onblur="phonenumberFormat(this)" />
-                        </div>
-                        <div class="mb-3">
-                            <label asp-for="SecondaryPhoneNumber">Secondary Phone Number</label>
-                            <input asp-for="SecondaryPhoneNumber"
-                                   type="text"
-                                   class="form-control"
-                                   id="phoneNumberInput"
-                                   autocomplete="on"
-                                   placeholder="000-000-0000"
-                                   maxlength="12"
-                                   oninput="phonenumberFormat(this)" />
-                        </div>
-                        <div class="form-group mb-3">
-                            <label asp-for="Address"></label>
-                            <input asp-for="Address"
-                                   type="text"
-                                   class="form-control"
-                                   id="addressInput"
-                                   autocomplete="off"
-                                   placeholder="Street Address" />
-                        </div>
+                        <button type="submit" class="btn btn-primary text-center">Sign Up</button>
                     </div>
-                    <div class="col-md-6 mt-2">
-                        <div class="form-group mb-3">
-                            <label asp-for="Photo"></label>
-                            <input asp-for="Photo" class="form-control" />
+                    <!--Seleccionar la foto de perfil-->
+                    <div class="col-sm-12 col-md-3">
+                        <div class="text-center">
+                            <img src="~/images/profileAvatars/avatar-default.png" class="profile-img" id="defaultAvatar" />
+                            <h5>Profile Photo</h5>
                         </div>
-                        <div class="form-group mb-3">
-                            <label asp-for="Username">Username<span class="text-danger">*</span></label>
-                            <input asp-for="Username"
-                                    type="text"
-                                    class="form-control"
-                                    id="usernameInput"
-                                    placeholder="Username" />
-                        </div>
-                        <div class="form-group mb-3">
-                            <label asp-for="Email">Email<span class="text-danger">*</span></label>
-                            <input asp-for="Email"
-                                    type="email"
-                                    class="form-control"
-                                    id="emailInput"
-                                    placeholder="example@gmail.com" />
-                        </div>
-                        <div class="form-group mb-3">
-                            <label asp-for="Password">Password<span class="text-danger">*</span></label>
-                            <input asp-for="Password"
-                                    type="password"
-                                    class="form-control"
-                                    id="passwordInput"
-                                    placeholder="Password"  />
+                        <hr />
+                        <div class="row">
+                            <p>(Opcional) Select an avatar:</p>
+                            @foreach (var profileAvatar in ViewBag.ProfileAvatars)
+                            {
+                                <div class="col mb-2 text-center">
+                                    <div class="form-check">
+                                        <input class="form-check-input"
+                                               type="radio"
+                                               name="profileAvatar"
+                                               id="profileAvatar"
+                                               asp-for="@Model.Photo"
+                                               value="@profileAvatar">
+                                        <label class="form-check-label" asp-for="@Model.Photo">
+                                            <img src="~/images/profileAvatars/@profileAvatar"
+                                                 class="profile-img"
+                                                 data-value="@profileAvatar"
+                                                 onclick="selectAvatar(this)" />
+                                        </label>
+                                    </div>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
-                
-                <button type="submit" class="btn btn-success">Sign Up</button>
             </form>
-        </section>
-    </div>
+        </div>
+    </section>
 </div>
 
 @section Scripts{
-    <script src="~/js/PhoneNumberFormat.js"></script>
+    <script src="~/js/SignUpScripts.js"></script>
 }

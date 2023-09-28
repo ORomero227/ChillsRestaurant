@@ -9,7 +9,6 @@
     @await RenderSectionAsync("Scripts", required: false)
 </head>
 <body>
-
     <header>
         <!--Navabar-->
         <nav class="navbar bg-primary navbar-expand-lg" data-bs-theme="dark">
@@ -38,17 +37,18 @@
         </nav>
     </header>
 
-    <div class="container-fluid maincontainer">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+    
 
-    <footer class="footer text-muted">
+    <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2023 - Chill's Restaurant - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

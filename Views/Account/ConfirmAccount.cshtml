@@ -1,0 +1,28 @@
+﻿@model ApplicationUser
+@{
+    ViewData["Title"] = "Confirm Email and Phonenumber";
+    Layout = "~/Views/Shared/_AuthenticationLayout.cshtml";
+}
+
+<div class="container">
+
+    <h3>Confirm Email and Phone</h3>
+
+    <p>We have sent the confirmation code to your email and phone number</p>
+
+    <section id="forms-section">
+        <form id="account"  method="post" asp-action="ConfirmAccountPost" asp-controller="Account">
+
+            <label class="form-label">@Model.Email: </label>
+            <input class="form-control" type="text" placeholder="code"/>
+            
+            <label class="form-label">@Model.Email: </label>
+            <input class="form-control" type="text" placeholder="code"/>
+
+            <input type="hidden" asp-for="Email" />
+            <input type="hidden" asp-for="PhoneNumber" />
+            <button type="submit" class="btn btn-primary">Confirm</button>
+        </form>
+    </section>
+</div>
+

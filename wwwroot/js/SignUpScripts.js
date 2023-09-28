@@ -12,3 +12,17 @@
         inputField.value = phoneNumber.slice(0, 3) + '-' + phoneNumber.slice(3, 6) + '-' + phoneNumber.slice(6, 10);
     }
 }
+
+function selectAvatar(image) {
+    var selectedValue = image.getAttribute("data-value");
+
+    var radioButton = document.querySelector('input[name="profileAvatar"][value="' + selectedValue + '"]');
+
+    if (radioButton) {
+        radioButton.checked = true;
+    }
+
+    var profileImage = document.getElementById("defaultAvatar");
+
+    profileImage.src = "/images/profileAvatars/" + selectedValue
+}

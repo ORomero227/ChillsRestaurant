@@ -1,8 +1,9 @@
 ﻿body {
+
 }
 
 .maincontainer {
-    position: relative;
+    /*position: relative;*/
     margin-bottom: 100px;
 }
 
@@ -27,57 +28,36 @@
 }
 
 /*--------------------------------------
-/*              Main Title
+/*              Login View
 --------------------------------------*/
-
-#MainTitle {
-    margin-top: 70px;
-    font-family: 'Roboto',Arial;
-    font-weight: bold;
+.loginWelcomeTitleContainer {
+    margin-top: 100px;
+    margin-bottom: 20px;
     text-align: center;
 }
 
-/*--------------------------------------
-/*              Form
---------------------------------------*/
-
-#forms-section {
+#form-section {
     /*box-shadow: #000 0px 10px 80px;*/
     padding: 50px;
 }
-    
-#forms-section h2 {
-    color: #fff;
+
+#form-title{
+    text-align: center;
 }
 
+/*-------------------------------------
+/*              SignUp View
+--------------------------------------*/
 
-.form-floating .form-label {
-    color: #000;
+.profile-img{
+    max-width: 100px;
 }
 
-.form-check-label {
-    color: #fff;
+.profileAvatarsColumn{
+    box-shadow: rgba(155,0,0,0.5) -10px 10px 80px;
+    padding: 20px;  
 }
 
-
-#rememberme-label {
-    color: #000;
-}
-
-.invalid-input-msg {
-    color: red;
-    font-weight: 500;
-}
-
-.validation-summary ul {
-    list-style-type: none;
-    color: red;
-    font-weight: 500;
-}
-
-.validation-summary li {
-    margin-left: 0px;
-}
 /*--------------------------------------
 /*              Footer
 --------------------------------------*/
