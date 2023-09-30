@@ -1,4 +1,5 @@
 using ChillsRestaurant.Models;
+using ChillsRestaurant.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,7 +8,7 @@ namespace ChillsRestaurant
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -18,14 +19,15 @@ namespace ChillsRestaurant
             builder.Services.AddDbContext<ChillsRestaurantDBContext>(options => options.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]));
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+                            .AddRoles<IdentityRole>()
                             .AddEntityFrameworkStores<ChillsRestaurantDBContext>()
                             .AddDefaultTokenProviders();
 
             builder.Services.Configure<IdentityOptions>(options => {
+                options.SignIn.RequireConfirmedEmail = true;
                 //Password Setting
                 options.Password.RequiredLength = 8;
                 options.Password.RequireNonAlphanumeric = false;
-
                 //Email Setting
                 options.User.RequireUniqueEmail = true;
             });
@@ -38,7 +40,16 @@ namespace ChillsRestaurant
             //Add services to container
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddScoped<UsersSetupService>();
+
             var app = builder.Build();
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var usersSetupService = scope.ServiceProvider.GetRequiredService<UsersSetupService>();
+
+                await usersSetupService.SetupRolesAndUsersAsync();
+            }
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

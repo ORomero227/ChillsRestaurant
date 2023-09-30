@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ChillsRestaurant.Migrations
 {
     /// <inheritdoc />
-    public partial class Identitytest : Migration
+    public partial class IdentityRole : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

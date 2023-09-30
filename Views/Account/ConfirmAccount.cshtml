@@ -4,25 +4,40 @@
     Layout = "~/Views/Shared/_AuthenticationLayout.cshtml";
 }
 
-<div class="container">
+<div class="container-fluid maincontainer">
+    <div class="row justify-content-center">
+        <section id="form-section" class="col-md-6">
 
-    <h3>Confirm Email and Phone</h3>
+            <h3>Confirm Email and Phone</h3>
+            <p>We have sent the confirmation code to your email and phone number</p>
 
-    <p>We have sent the confirmation code to your email and phone number</p>
+            <hr />
 
-    <section id="forms-section">
-        <form id="account"  method="post" asp-action="ConfirmAccountPost" asp-controller="Account">
-
-            <label class="form-label">@Model.Email: </label>
-            <input class="form-control" type="text" placeholder="code"/>
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="container alert alert-danger" role="alert">
+                    <ul>
+                        @foreach (var error in ViewData.ModelState.Values.SelectMany(e => e.Errors))
+                        {
+                            <li>@error.ErrorMessage</li>
+                        }
+                    </ul>
+                </div>
+            }
             
-            <label class="form-label">@Model.Email: </label>
-            <input class="form-control" type="text" placeholder="code"/>
+            <form id="account" method="post" asp-action="ConfirmAccountPost" asp-controller="Account">
 
-            <input type="hidden" asp-for="Email" />
-            <input type="hidden" asp-for="PhoneNumber" />
-            <button type="submit" class="btn btn-primary">Confirm</button>
-        </form>
-    </section>
+                <label class="form-label">@Model.Email: </label>
+                <input class="form-control" type="text" placeholder="code" required/>
+
+                <label class="form-label">@Model.PhoneNumber: </label>
+                <input class="form-control" type="text" placeholder="code" required/>
+
+                <input type="hidden" asp-for="Email" />
+                <input type="hidden" asp-for="PhoneNumber" />
+                <button type="submit" class=" mt-3 btn btn-primary">Confirm</button>
+            </form>
+           
+        </section>
+    </div>
 </div>
-

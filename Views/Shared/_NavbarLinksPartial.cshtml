@@ -1,0 +1,53 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+    var isAuthenticated = User?.Identity?.IsAuthenticated == true;
+
+    var profilePhoto = user?.Photo;
+    var userName = user?.UserName;
+}
+
+
+@if (isAuthenticated)
+{
+    <ul class="navbar-nav flex-grow-1">
+
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </li>
+
+        @if (User.IsInRole("Manager"))
+        {
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Manager Actions
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" asp-controller="Manager" asp-action="AccountsManagement">Accounts Management</a></li>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                </ul>
+            </li>
+        }
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle d-flex align-items-center text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="~/images/profileAvatars/@profilePhoto" class="img-fluid rounded-circle profile-img me-1">Account
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Manage Profile</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                    <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a>
+                </li>
+            </ul>
+        </li>
+
+    </ul>
+}

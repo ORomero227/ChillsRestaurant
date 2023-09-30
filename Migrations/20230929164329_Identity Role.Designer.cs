@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChillsRestaurant.Migrations
 {
     [DbContext(typeof(ChillsRestaurantDBContext))]
-    [Migration("20230925124811_Identity test")]
-    partial class Identitytest
+    [Migration("20230929164329_Identity Role")]
+    partial class IdentityRole
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

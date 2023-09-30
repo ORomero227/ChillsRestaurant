@@ -19,6 +19,7 @@ namespace ChillsRestaurant.Controllers
         }
 
         #region Login Actions
+        //Devuelve la vista con el form para hacer login
         [AllowAnonymous]
         [HttpGet]
         public IActionResult Login(string returnUrl)
@@ -28,6 +29,7 @@ namespace ChillsRestaurant.Controllers
             return View(login);
         }
 
+        //Accion para manejar el login
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -35,7 +37,8 @@ namespace ChillsRestaurant.Controllers
         {
             if (ModelState.IsValid)
             {
-                ApplicationUser user = await _userManager.FindByNameAsync(login.UserName);
+                var user = await _userManager.FindByNameAsync(login.UserName);
+
                 if (user != null)
                 {
                     if (user.EmailConfirmed) // Verifica si el correo está confirmado
@@ -66,7 +69,7 @@ namespace ChillsRestaurant.Controllers
             return View(login);
         }
 
-
+        //Accion para cerrar sesion
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
@@ -76,6 +79,7 @@ namespace ChillsRestaurant.Controllers
         #endregion
 
         #region SignUp Actions
+        //Lista que contiene todos los avatar para el perfil
         public List<string> GetProfileAvatars()
         {
             List<string> profileAvatars = new List<string>
@@ -91,21 +95,21 @@ namespace ChillsRestaurant.Controllers
             return profileAvatars;
         }
 
-
+        //Devuelve la vista con el formulario y los avatars
         [HttpGet]
         public IActionResult SignUp() 
         {
-
             ViewBag.ProfileAvatars = GetProfileAvatars();
-
             return View(); 
         }
 
+        //Metodo para verificar si el username o el email contienen la palabra admin
         private bool InputContainsAdminWord(string input)
         {
             return !string.IsNullOrEmpty(input) && (input.Contains("admin", StringComparison.OrdinalIgnoreCase) || input.Contains("ADMIN", StringComparison.OrdinalIgnoreCase));
         }
 
+        //Metodo para crear el usuario
         [HttpPost]
         public async Task<IActionResult> SignUp(User user)
         {
@@ -120,7 +124,7 @@ namespace ChillsRestaurant.Controllers
                     return View(user);
                 }
 
-                if (InputContainsAdminWord(user.Password))
+                if (InputContainsAdminWord(user.Email))
                 {
                     ModelState.AddModelError(string.Empty, "Email entered cant be used");
                     return View(user);
@@ -142,6 +146,11 @@ namespace ChillsRestaurant.Controllers
                     user.Address = "Unregistered";
                 }
 
+                if (user.Photo == null)
+                {
+                    user.Photo = "avatar-default.png";
+                }
+
                 ApplicationUser applicationUser = new ApplicationUser
                 {
                     Name = user.Name,
@@ -160,6 +169,7 @@ namespace ChillsRestaurant.Controllers
 
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(applicationUser, "Client");
                     return View("ConfirmAccount", applicationUser);
                 }
                 else
@@ -176,12 +186,15 @@ namespace ChillsRestaurant.Controllers
         #endregion
 
         #region Confirm Account
+
+        //Deuvelve la vista con el form para confirmar email y telefono
         [HttpGet]
         public IActionResult ConfirmAccount(ApplicationUser model)
         {
             return View(model);
         }
 
+        //Accion para marcar el email y el telefono como confirmado
         [HttpPost]
         public async Task<IActionResult> ConfirmAccountPost(ApplicationUser model)
         {
@@ -204,6 +217,7 @@ namespace ChillsRestaurant.Controllers
             return RedirectToAction("SignUp",model);
         }
 
+        //En caso de que la cuenta no este confirmada se devuelve este link
         [HttpGet]
         public async Task<IActionResult> ConfirmAccountLink(string email)
         {

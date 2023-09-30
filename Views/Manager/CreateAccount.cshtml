@@ -1,17 +1,16 @@
 ﻿@model User
 @{
-    ViewData["Title"] = "Sign Up";
-    Layout = "~/Views/Shared/_AuthenticationLayout.cshtml";
+    ViewData["Title"] = "Creating Account";
 }
 
-<div class="container-fluid maincontainer">
+<div class="container-fluid">
     <div class="container mt-4">
         <h3 id="MainTitle">Creating Account</h3>
     </div>
 
     <section>
         <div class="container">
-            <form asp-action="SignUp" asp-controller="Account" method="post">
+            <form asp-action="CreateAccount" asp-controller="Manager" method="post">
                 <div class="row">
                     <!-- Informacion de la cuenta -->
                     <div class="col-md-8">

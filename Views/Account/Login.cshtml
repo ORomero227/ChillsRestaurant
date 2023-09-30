@@ -24,16 +24,6 @@
                     @TempData["SignUpConfirm"]
                 </div>
             }
-
-            @if (TempData["UserEmail"] != null)
-            {
-                <div class="container alert alert-warning" role="alert">
-                    <p>
-                        Please confirm your email<a href="@Url.Action("ConfirmAccountLink", "Account", new { email = TempData["UserEmail"] })">Confirm</a>
-                    </p>
-                </div>
-            }
-
             @if (!ViewData.ModelState.IsValid)
             {
                 <div class="container alert alert-danger" role="alert">
@@ -45,6 +35,17 @@
                     </ul>
                 </div>
             }
+
+            @if (TempData["UserEmail"] != null)
+            {
+                <div class="container alert alert-warning" role="alert">
+                    <p>
+                        Please confirm your email: <a href="@Url.Action("ConfirmAccountLink", "Account", new { email = TempData["UserEmail"] })">Confirm here</a>
+                    </p>
+                </div>
+            }
+
+           
 
             <form id="Account" method="post">
                 <div class="mb-3">
