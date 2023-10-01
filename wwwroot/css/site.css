@@ -24,3 +24,7 @@ body {
 .profile-img{
     max-width: 25px;
 }
+
+.profileavatar-img {
+    max-width: 100px;
+}

@@ -17,13 +17,14 @@
                     <div class="col-md-8">
                         @if (!ViewData.ModelState.IsValid)
                         {
-                            <div class="container alert alert-danger" role="alert">
+                            <div class="container alert alert-danger d-flex justify-content-between" role="alert">
                                 <ul>
                                     @foreach (var error in ViewData.ModelState.Values.SelectMany(e => e.Errors))
                                     {
                                         <li>@error.ErrorMessage</li>
                                     }
                                 </ul>
+                                <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
                         }
                         <div class="row">

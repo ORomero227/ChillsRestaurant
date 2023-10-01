@@ -20,28 +20,31 @@
 
             @if (TempData["SignUpConfirm"] != null)
             {
-                <div class="container alert alert-success" role="alert">
+                <div class="container alert alert-success d-flex justify-content-between" role="alert">
                     @TempData["SignUpConfirm"]
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             }
             @if (!ViewData.ModelState.IsValid)
             {
-                <div class="container alert alert-danger" role="alert">
+                <div class="container alert alert-danger d-flex justify-content-between" role="alert">
                     <ul>
                         @foreach (var error in ViewData.ModelState.Values.SelectMany(e => e.Errors))
                         {
                             <li>@error.ErrorMessage</li>
                         }
                     </ul>
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             }
 
             @if (TempData["UserEmail"] != null)
             {
-                <div class="container alert alert-warning" role="alert">
+                <div class="container alert alert-warning d-flex justify-content-between" role="alert">
                     <p>
                         Please confirm your email: <a href="@Url.Action("ConfirmAccountLink", "Account", new { email = TempData["UserEmail"] })">Confirm here</a>
                     </p>
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             }
 

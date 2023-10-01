@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChillsRestaurant.Migrations
 {
     [DbContext(typeof(ChillsRestaurantDBContext))]
-    [Migration("20230929164329_Identity Role")]
-    partial class IdentityRole
+    [Migration("20231001135910_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -75,6 +75,10 @@ namespace ChillsRestaurant.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Photo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecondaryPhoneNumber")

@@ -74,6 +74,10 @@ namespace ChillsRestaurant.Migrations
                     b.Property<string>("Photo")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SecondaryPhoneNumber")
                         .HasColumnType("nvarchar(max)");
 

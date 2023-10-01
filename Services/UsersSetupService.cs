@@ -48,7 +48,8 @@ namespace ChillsRestaurant.Services
                         PhoneNumber = "787-000-0000",
                         SecondaryPhoneNumber = "Unregistered",
                         Address = "Unregistered",
-                        Photo = "avatar-default",
+                        Photo = "avatar-default.png",
+                        Role = "Manager",
                         EmailConfirmed = true,
                         PhoneNumberConfirmed = true,
                         TwoFactorEnabled = false

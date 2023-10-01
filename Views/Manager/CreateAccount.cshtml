@@ -1,7 +1,9 @@
-﻿@model User
+﻿@using ChillsRestaurant.Models.ViewModels
+@model ManagerCreateAccount
 @{
     ViewData["Title"] = "Creating Account";
 }
+
 
 <div class="container-fluid">
     <div class="container mt-4">
@@ -16,7 +18,7 @@
                     <div class="col-md-8">
                         @if (!ViewData.ModelState.IsValid)
                         {
-                            <div class="container alert alert-danger" role="alert">
+                            <div class="container alert alert-danger d-flex justify-content-center" role="alert">
                                 <ul>
                                     @foreach (var error in ViewData.ModelState.Values.SelectMany(e => e.Errors))
                                     {
@@ -24,6 +26,7 @@
                                     }
                                 </ul>
                             </div>
+                            <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
                         }
                         <div class="row">
                             <div class="col-md-6">
@@ -93,12 +96,21 @@
                                        class="form-control"
                                        placeholder="Address" />
                             </div>
+                            <div class="form-group mb-3">
+                                <label>Role</label>
+                                <select class="form-select" aria-label="Default select example" asp-for="Role">
+                                    @foreach(var role in ViewBag.Roles)
+                                    {
+                                        <option value="@role">@role</option>
+                                    }
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <!-- Seleccionar la foto de perfil -->
                     <div class="col-md-4">
                         <div class="text-center">
-                            <img src="~/images/profileAvatars/avatar-default.png" class="profile-img" id="defaultAvatar" />
+                            <img src="~/images/profileAvatars/avatar-default.png" class="profileavatar-img" id="defaultAvatar" />
                             <h5>Profile Photo</h5>
                         </div>
                         <hr />
@@ -114,7 +126,7 @@
                                                id="@profileAvatar"
                                                value="@profileAvatar" />
                                         <img src="~/images/profileAvatars/@profileAvatar"
-                                             class="profile-img"
+                                             class="profileavatar-img"
                                              data-value="@profileAvatar"
                                              onclick="selectAvatar(this)" />
                                     </label>
@@ -122,13 +134,15 @@
                             }
                         </div>
                     </div>
-                    <button type="submit" class="mt-4 mb-3 btn btn-primary">Sign Up</button>
-                    <button type="reset" class="btn btn-warning" id="btnClear" onclick="resetAll()">Clear</button>
+                    <button type="submit" class="mt-4 mb-3 btn btn-primary">Create Account</button>
+                    <button type="reset" class="btn btn-warning mb-3" id="btnClear" onclick="resetAll()">Clear</button>
+                    <a class="btn btn-primary mb-3" asp-action="AccountsManagement" asp-controller="Manager">Return</a>
                 </div>
             </form>
         </div>
     </section>
 </div>
+
 
 @section Scripts{
     <script src="~/js/SignUpScripts.js"></script>
