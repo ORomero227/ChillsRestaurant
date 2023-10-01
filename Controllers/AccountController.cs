@@ -1,4 +1,5 @@
 ﻿using ChillsRestaurant.Models;
+using ChillsRestaurant.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -228,6 +229,23 @@ namespace ChillsRestaurant.Controllers
             }
 
             return RedirectToAction("Login", new { returnUrl = "/" });
+        }
+
+        //--------------------------------------------------------------
+        //                 Account Profile Actions
+        //--------------------------------------------------------------
+
+        [HttpGet]
+        public async Task<IActionResult> AccountProfile(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+
+            if (user != null)
+            {
+                return View(user);
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
     }

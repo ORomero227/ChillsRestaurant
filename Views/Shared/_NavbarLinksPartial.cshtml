@@ -41,7 +41,7 @@
                 <img src="~/images/profileAvatars/@profilePhoto" class="img-fluid rounded-circle profile-img me-1">Account
             </a>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Manage Profile</a></li>
+                <li><a class="dropdown-item" href="@Url.Action("AccountProfile","Account", new{username = userName})">Manage Profile</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li>
                     <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a>

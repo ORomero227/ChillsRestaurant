@@ -39,6 +39,9 @@ namespace ChillsRestaurant.Controllers
             return !string.IsNullOrEmpty(input) && (input.Contains("admin", StringComparison.OrdinalIgnoreCase) || input.Contains("ADMIN", StringComparison.OrdinalIgnoreCase));
         }
 
+    //-----------------------------------------------
+    //              Accounts Management
+    //-------------------------------------------------
 
         [HttpGet]
         public IActionResult AccountsManagement()
@@ -135,6 +138,19 @@ namespace ChillsRestaurant.Controllers
             }
 
             return View(user);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> MoreInfo(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+
+            if (user != null)
+            {
+                return View(user);
+            }
+
+            return RedirectToAction("AccountManagement");
         }
 
     }

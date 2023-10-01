@@ -1,0 +1,78 @@
+﻿@model ApplicationUser
+
+<div class="container-fluid">
+
+    <div class="container d-flex justify-content-between">
+        <h3>Account Information</h3>
+        <div>
+            <a class="btn btn-primary" asp-action="AccountsManagement" asp-controller="Manager">Return</a>
+        </div>
+    </div>
+    <hr />
+
+    <section>
+        <div class="container">
+            <form asp-action="CreateAccount" asp-controller="Manager" method="post">
+                <div class="row">
+                    <!-- Informacion de la cuenta -->
+                    <div class="col-md-8">
+                        @if (!ViewData.ModelState.IsValid)
+                        {
+                            <div class="container alert alert-danger d-flex justify-content-center" role="alert">
+                                <ul>
+                                    @foreach (var error in ViewData.ModelState.Values.SelectMany(e => e.Errors))
+                                    {
+                                        <li>@error.ErrorMessage</li>
+                                    }
+                                </ul>
+                            </div>
+                            <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+                        }
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label asp-for="Name" class="form-label">Name</label>
+                                    <input asp-for="Name" class="form-control" disabled readonly/>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label asp-for="PhoneNumber">Primary Phone Number</label>
+                                    <input asp-for="PhoneNumber" class="form-control" disabled readonly/>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label asp-for="SecondaryPhoneNumber">Secondary Phone Number</label>
+                                    <input asp-for="SecondaryPhoneNumber" class="form-control" disabled readonly />
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-2">
+                                <div class="form-group mb-3">
+                                    <label asp-for="UserName">Username</label>
+                                    <input asp-for="UserName" class="form-control" disabled readonly />
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label asp-for="Email">Email</label>
+                                    <input asp-for="Email" class="form-control" disabled readonly/>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label asp-for="Role">Role</label>
+                                    <input asp-for="Role" class="form-control" disabled readonly />
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label asp-for="Address">Address <span class="form-text">(Optional)</span></label>
+                                <input asp-for="Address" class="form-control" disabled readonly />
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <!-- Seleccionar la foto de perfil -->
+                    <div class="col-md-4">
+                        <div class="text-center mt-5">
+                            <img src="~/images/profileAvatars/@Model.Photo" class="profileavatar-img" id="defaultAvatar" />
+                            <h5>Profile Photo</h5>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>

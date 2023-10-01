@@ -33,9 +33,7 @@
                         <th scope="col">Name</th>
                         <th scope="col">Username</th>
                         <th scope="col">Role</th>
-                        <th scope="col">Primary Phone Number</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Account Details</th>
+                        <th scope="col">More Info</th>
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
@@ -43,13 +41,12 @@
                     @foreach (var employee in Model.Users)
                     {
                         <tr class="text-center">
-                            <td><img src="~/images/profileAvatars/@employee.Photo" class="img-fluid rounded-circle profile-img me-1"></td>
+                            <td>
+                                <img src="~/images/profileAvatars/@employee.Photo" class="img-fluid rounded-circle profile-img me-1"></td>
                             <td>@employee.Name</td>
                             <td>@employee.UserName</td>
                             <td>@employee.Role</td>
-                            <td>@employee.PhoneNumber</td>
-                            <td>@employee.Email</td>
-                            <td><a href="#">More Info</a></td>
+                            <td><a href="@Url.Action("MoreInfo","Manager", new{ username = employee.UserName })">More Info</a></td>
                             <td>Delete | Edit </td>
                         </tr>
                     }

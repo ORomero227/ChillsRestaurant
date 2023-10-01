@@ -66,7 +66,12 @@ namespace ChillsRestaurant
 
             app.UseAuthentication();
             app.UseAuthorization();
-            
+
+            app.MapControllerRoute(
+                name: "moreInfo",
+                pattern: "Manager/MoreInfo/{username}",
+                defaults: new { controller = "Manager",action = "MoreInfo" });
+
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
