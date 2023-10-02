@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ChillsRestaurant.Models.ViewModels
+namespace ChillsRestaurant.Models.EditModels
 {
-    public class ManagerCreateAccount
+    public class EditAccountModel
     {
         [Required]
         [MinLength(3, ErrorMessage = "Name is too short")]
@@ -27,9 +27,14 @@ namespace ChillsRestaurant.Models.ViewModels
         [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "Email is not valid")]
         public string Email { get; set; }
 
-        [Required]
-        public string Password { get; set; }
 
-        public string Role {get;set; }
+        public string? CurrentPassword {get; set; }
+        public string? NewPassword { get; set; }
+
+        public string NewRole { get; set; }
+        
+        public string AccountStatus {get;set; }
+
+        public string Id {get; set; }
     }
 }

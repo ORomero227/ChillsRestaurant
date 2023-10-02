@@ -1,4 +1,4 @@
-﻿@using ChillsRestaurant.Models.ViewModels
+﻿@using ChillsRestaurant.Models.ViewModels.Manager
 @model AccountsManagementModel
 @{
     ViewData["Title"] = "Accounts Management";
@@ -16,12 +16,22 @@
     <hr />
 
     <div class="container">
-        @if (TempData["CreateAccountSuccess"] != null)
-        {
-            <div class="container alert alert-success d-flex justify-content-between" role="alert">
-                @TempData["CreateAccountSuccess"]Success
-                <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
+        @{
+            if (TempData["CreateAccountSuccess"] != null)
+            {
+                <div class="container alert alert-success d-flex justify-content-between" role="alert">
+                    @TempData["CreateAccountSuccess"]
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            if (TempData["EditAccountSucess"] != null)
+            {
+                <div class="container alert alert-success d-flex justify-content-between" role="alert">
+                    @TempData["EditAccountSucess"]
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
         }
     </div>
     <div class="container-fluid">
@@ -33,6 +43,7 @@
                         <th scope="col">Name</th>
                         <th scope="col">Username</th>
                         <th scope="col">Role</th>
+                        <th scope="col">Account Status</th>
                         <th scope="col">More Info</th>
                         <th scope="col">Actions</th>
                     </tr>
@@ -46,8 +57,11 @@
                             <td>@employee.Name</td>
                             <td>@employee.UserName</td>
                             <td>@employee.Role</td>
+                            <td>@employee.AccountStatus.ToUpper()</td>
                             <td><a href="@Url.Action("MoreInfo","Manager", new{ username = employee.UserName })">More Info</a></td>
-                            <td>Delete | Edit </td>
+                            <td>
+                                <a href="@Url.Action("EditAccount","Manager", new {username = employee.UserName})">Edit</a>
+                            </td>
                         </tr>
                     }
                 </tbody>
@@ -55,3 +69,7 @@
         </div>
     </div>
 </div>
+
+@section Scripts{
+    <script src="~/js/AccountsManagementScripts.js"></script>
+}

@@ -50,6 +50,7 @@ namespace ChillsRestaurant.Services
                         Address = "Unregistered",
                         Photo = "avatar-default.png",
                         Role = "Manager",
+                        AccountStatus = "enable",
                         EmailConfirmed = true,
                         PhoneNumberConfirmed = true,
                         TwoFactorEnabled = false

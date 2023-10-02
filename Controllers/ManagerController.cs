@@ -1,5 +1,6 @@
 ﻿using ChillsRestaurant.Models;
-using ChillsRestaurant.Models.ViewModels;
+using ChillsRestaurant.Models.EditModels;
+using ChillsRestaurant.Models.ViewModels.Manager;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -34,14 +35,33 @@ namespace ChillsRestaurant.Controllers
 
             return profileAvatars;
         }
+        public List<string> GetAccountStatus()
+        {
+            List<string> status = new List<string>
+            {
+                "enable","disable"
+            };
+
+            return status;
+        }
         private bool InputContainsAdminWord(string input)
         {
             return !string.IsNullOrEmpty(input) && (input.Contains("admin", StringComparison.OrdinalIgnoreCase) || input.Contains("ADMIN", StringComparison.OrdinalIgnoreCase));
         }
 
-    //-----------------------------------------------
-    //              Accounts Management
-    //-------------------------------------------------
+        public void PassSelectInputValuesToView()
+        {
+            //Se pasan los avatars disponibles para la foto de perfil
+            ViewBag.ProfileAvatars = GetProfileAvatars();
+            //Se pasan los roles disponibles
+            ViewBag.Roles = _roleManager.Roles;
+            //Se pasan los estados de cuentas disponibles
+            ViewBag.AccountStatus = GetAccountStatus();
+        }
+
+        //-----------------------------------------------
+        //              Accounts Management
+        //-------------------------------------------------
 
         [HttpGet]
         public IActionResult AccountsManagement()
@@ -54,10 +74,7 @@ namespace ChillsRestaurant.Controllers
         [HttpGet]
         public IActionResult CreateAccount()
         {
-            //Se pasan los avatars disponibles para la foto de perfil
-            ViewBag.ProfileAvatars = GetProfileAvatars();
-            //Se pasan los roles disponibles
-            ViewBag.Roles = _roleManager.Roles;
+            PassSelectInputValuesToView();
 
             return View();
         }
@@ -115,6 +132,7 @@ namespace ChillsRestaurant.Controllers
                     Address = user.Address,
                     Photo = user.Photo,
                     Role = user.Role,
+                    AccountStatus = "enable",
                     EmailConfirmed = true,
                     PhoneNumberConfirmed = true,
                     TwoFactorEnabled = false
@@ -152,6 +170,129 @@ namespace ChillsRestaurant.Controllers
 
             return RedirectToAction("AccountManagement");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> EditAccount(string username)
+        {
+            PassSelectInputValuesToView();
+
+            var user = await _userManager.FindByNameAsync(username);
+
+            if (user != null)
+            {
+                if (user.SecondaryPhoneNumber == "Unregistered")
+                {
+                    user.SecondaryPhoneNumber = "000-000-0000";
+                }
+
+                EditAccountModel model = new EditAccountModel
+                {
+                    Name = user.Name,
+                    Username = user.UserName,
+                    Email = user.Email,
+                    Address = user.Address,
+                    Photo = user.Photo,
+                    PrimaryPhoneNumber = user.PhoneNumber,
+                    SecondaryPhoneNumber = user.SecondaryPhoneNumber,
+                    NewPassword = "",
+                    NewRole = user.Role,
+                    AccountStatus = user.AccountStatus,
+                    Id = user.Id
+                };
+
+                return View(model);
+            }
+
+            return RedirectToAction("AcconuntManagement");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditAccount(EditAccountModel model)
+        {
+            PassSelectInputValuesToView();
+
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByIdAsync(model.Id);
+
+                if (user != null)
+                {
+
+                    //Verificar si el password cambio
+                    if (!string.IsNullOrEmpty(model.NewPassword))
+                    {
+                        var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+
+                        if (!changePasswordResult.Succeeded)
+                        {
+                            foreach (var error in changePasswordResult.Errors)
+                            {
+                                ModelState.AddModelError(string.Empty, error.Description);
+                            }
+                            return View(model);
+                        }
+                    }
+
+                    //Verificar si el rol cambio
+                    var roleChanged = user.Role != model.NewRole;
+                    if (roleChanged)
+                    {
+                        var newRole = await _roleManager.FindByNameAsync(model.NewRole);
+
+                        //En caso de que el rol deje de existir
+                        if (newRole != null)
+                        {
+                            await _userManager.RemoveFromRoleAsync(user, user.Role);
+                            await _userManager.AddToRoleAsync(user, model.NewRole);
+                            user.Role = model.NewRole;
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(string.Empty, "Role not found");
+                            return View(model);
+                        }
+                    }
+
+                    if (model.SecondaryPhoneNumber == "000-000-0000")
+                    {
+                        model.SecondaryPhoneNumber = "Unregistered";
+                    }
+
+                    user.Name = model.Name;
+                    user.UserName = model.Username;
+                    user.Email = model.Email;
+                    user.Address = model.Address;
+                    user.Photo = model.Photo;
+                    user.PhoneNumber = model.PrimaryPhoneNumber;
+                    user.SecondaryPhoneNumber = model.SecondaryPhoneNumber;
+                    user.Role = model.NewRole;
+                    user.AccountStatus = model.AccountStatus;
+
+                    var result = await _userManager.UpdateAsync(user);
+
+                    if (result.Succeeded)
+                    {
+                        TempData["EditAccountSucess"] = "Account Updated";
+                        return RedirectToAction("AccountsManagement");
+                    }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "User not found");
+                }
+            }
+
+            return View(model);
+        }
+
+
 
     }
 }

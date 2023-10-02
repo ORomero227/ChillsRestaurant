@@ -1,4 +1,4 @@
-﻿namespace ChillsRestaurant.Models.ViewModels
+﻿namespace ChillsRestaurant.Models.ViewModels.Manager
 {
     public class AccountsManagementModel
     {

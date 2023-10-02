@@ -71,6 +71,11 @@ namespace ChillsRestaurant
                 name: "moreInfo",
                 pattern: "Manager/MoreInfo/{username}",
                 defaults: new { controller = "Manager",action = "MoreInfo" });
+            
+            app.MapControllerRoute(
+                name: "moreInfo",
+                pattern: "Manager/EditAccount/{username}",
+                defaults: new { controller = "Manager",action = "EditAccount" });
 
             app.MapControllerRoute(
                 name: "default",

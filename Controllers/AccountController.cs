@@ -63,24 +63,31 @@ namespace ChillsRestaurant.Controllers
 
                 if (user != null)
                 {
-                    if (user.EmailConfirmed) // Verifica si el correo está confirmado
+                    if (user.AccountStatus == "enable")
                     {
-                        await _signInManager.SignOutAsync();
-                        Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(user, login.Password, isPersistent: false, lockoutOnFailure: false);
-
-                        if (result.Succeeded)
+                        if (user.EmailConfirmed) // Verifica si el correo está confirmado
                         {
-                            return Redirect(login.ReturnUrl ?? "/");
+                            await _signInManager.SignOutAsync();
+                            Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(user, login.Password, isPersistent: false, lockoutOnFailure: false);
+
+                            if (result.Succeeded)
+                            {
+                                return Redirect(login.ReturnUrl ?? "/");
+                            }
+                            else
+                            {
+                                ModelState.AddModelError(nameof(login.UserName), "Login Failed: Invalid Username or Password");
+                            }
                         }
                         else
                         {
-                            ModelState.AddModelError(nameof(login.UserName), "Login Failed: Invalid Username or Password");
+                            ModelState.AddModelError(nameof(login.UserName), "Login Failed: Your email is not confirmed.");
+                            TempData["UserEmail"] = user.Email;
                         }
                     }
                     else
                     {
-                        ModelState.AddModelError(nameof(login.UserName), "Login Failed: Your email is not confirmed.");
-                        TempData["UserEmail"] = user.Email;
+                        ModelState.AddModelError(string.Empty, "Your account has been disabled");
                     }
                 }
                 else
@@ -160,6 +167,7 @@ namespace ChillsRestaurant.Controllers
                     Address = user.Address,
                     Photo = user.Photo,
                     Role = "Client",
+                    AccountStatus = "disable",
                     EmailConfirmed = false,
                     PhoneNumberConfirmed = false,
                     TwoFactorEnabled = false
@@ -207,6 +215,7 @@ namespace ChillsRestaurant.Controllers
                     {
                         user.EmailConfirmed = true;
                         user.PhoneNumberConfirmed = true;
+                        user.AccountStatus = "enable";
                         await _userManager.UpdateAsync(user);
                         TempData["SignUpConfirm"] = "Account Created";
                         return RedirectToAction("Login", new { returnUrl = "/", });
