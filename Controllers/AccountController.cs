@@ -1,4 +1,5 @@
 ﻿using ChillsRestaurant.Models;
+using ChillsRestaurant.Models.EditModels;
 using ChillsRestaurant.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -38,10 +39,9 @@ namespace ChillsRestaurant.Controllers
             return !string.IsNullOrEmpty(input) && (input.Contains("admin", StringComparison.OrdinalIgnoreCase) || input.Contains("ADMIN", StringComparison.OrdinalIgnoreCase));
         }
 
-
-    //----------------------------------------------------
-    //              Login Actions
-    //----------------------------------------------------
+        //----------------------------------------------------
+        //              Login Actions
+        //----------------------------------------------------
 
         [AllowAnonymous]
         [HttpGet]
@@ -255,6 +255,103 @@ namespace ChillsRestaurant.Controllers
             }
 
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditAccount(string username)
+        {
+            ViewBag.ProfileAvatars = GetProfileAvatars();
+
+            var user = await _userManager.FindByNameAsync(username);
+
+            if (user != null)
+            {
+                if (user.SecondaryPhoneNumber == "Unregistered")
+                {
+                    user.SecondaryPhoneNumber = "000-000-0000";
+                }
+
+                AccountEditAccountModel model = new AccountEditAccountModel()
+                {
+                    Name = user.Name,
+                    Username = user.UserName,
+                    Email = user.Email,
+                    Address = user.Address,
+                    Photo = user.Photo,
+                    PrimaryPhoneNumber = user.PhoneNumber,
+                    SecondaryPhoneNumber = user.SecondaryPhoneNumber,
+                    NewPassword = "",
+                    Id = user.Id
+                };
+
+                return View(model);
+            }
+
+            return RedirectToAction("AcconuntManagement");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditAccount(AccountEditAccountModel model)
+        {
+            ViewBag.ProfileAvatars = GetProfileAvatars();
+
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByIdAsync(model.Id);
+
+                if (user != null)
+                {
+
+                    //Verificar si el password cambio
+                    if (!string.IsNullOrEmpty(model.NewPassword))
+                    {
+                        var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+
+                        if (!changePasswordResult.Succeeded)
+                        {
+                            foreach (var error in changePasswordResult.Errors)
+                            {
+                                ModelState.AddModelError(string.Empty, error.Description);
+                            }
+                            return View(model);
+                        }
+                    }
+
+                    if (model.SecondaryPhoneNumber == "000-000-0000")
+                    {
+                        model.SecondaryPhoneNumber = "Unregistered";
+                    }
+
+                    user.Name = model.Name;
+                    user.UserName = model.Username;
+                    user.Email = model.Email;
+                    user.Address = model.Address;
+                    user.Photo = model.Photo;
+                    user.PhoneNumber = model.PrimaryPhoneNumber;
+                    user.SecondaryPhoneNumber = model.SecondaryPhoneNumber;
+
+                    var result = await _userManager.UpdateAsync(user);
+
+                    if (result.Succeeded)
+                    {
+                        TempData["EditAccountSucess"] = "Account Updated";
+                        return RedirectToAction("AccountProfile", new { username = user.UserName });
+                    }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "User not found");
+                }
+            }
+
+            return View(model);
         }
 
     }

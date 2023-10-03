@@ -172,7 +172,7 @@ namespace ChillsRestaurant.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> EditAccount(string username)
+        public async Task<IActionResult> EditAccounts(string username)
         {
             PassSelectInputValuesToView();
 
@@ -185,7 +185,7 @@ namespace ChillsRestaurant.Controllers
                     user.SecondaryPhoneNumber = "000-000-0000";
                 }
 
-                EditAccountModel model = new EditAccountModel
+                ManagerEditAccountModel model = new ManagerEditAccountModel
                 {
                     Name = user.Name,
                     Username = user.UserName,
@@ -207,7 +207,7 @@ namespace ChillsRestaurant.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditAccount(EditAccountModel model)
+        public async Task<IActionResult> EditAccounts(ManagerEditAccountModel model)
         {
             PassSelectInputValuesToView();
 
@@ -291,8 +291,6 @@ namespace ChillsRestaurant.Controllers
 
             return View(model);
         }
-
-
 
     }
 }

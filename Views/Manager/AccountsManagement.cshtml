@@ -60,7 +60,7 @@
                             <td>@employee.AccountStatus.ToUpper()</td>
                             <td><a href="@Url.Action("MoreInfo","Manager", new{ username = employee.UserName })">More Info</a></td>
                             <td>
-                                <a href="@Url.Action("EditAccount","Manager", new {username = employee.UserName})">Edit</a>
+                                <a href="@Url.Action("EditAccounts","Manager", new {username = employee.UserName})">Edit</a>
                             </td>
                         </tr>
                     }

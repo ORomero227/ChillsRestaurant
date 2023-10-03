@@ -1,0 +1,151 @@
+﻿@using ChillsRestaurant.Models.EditModels;
+@model AccountEditAccountModel
+@{
+    //Edit Account profile
+}
+
+<div class="container-fluid">
+
+    <div class="container d-flex justify-content-between">
+        <h3>Editing Account</h3>
+        <div>
+            <a class="btn btn-primary" href="@Url.Action("AccountProfile","Account",new { username = Model.Username})">Return</a>
+        </div>
+    </div>
+    <hr />
+
+    <section>
+        <div class="container">
+            <form asp-action="EditAccount" asp-controller="Account" method="post">
+                <div class="row">
+                    <!-- Informacion de la cuenta -->
+                    <div class="col-md-8">
+                        @if (!ViewData.ModelState.IsValid)
+                        {
+                            <div class="container alert alert-danger d-flex justify-content-between" role="alert">
+                                <ul>
+                                    @foreach (var error in ViewData.ModelState.Values.SelectMany(e => e.Errors))
+                                    {
+                                        <li>@error.ErrorMessage</li>
+                                    }
+                                </ul>
+                                <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label asp-for="Name" class="form-label">Name</label>
+                                    <input asp-for="Name"
+                                           type="text"
+                                           class="form-control"
+                                           id="nameInput"
+                                           autocomplete="on"
+                                           maxlength="20"
+                                           placeholder="Name" />
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label asp-for="PrimaryPhoneNumber">Primary Phone Number</label>
+                                    <input asp-for="PrimaryPhoneNumber"
+                                           class="form-control"
+                                           id="phoneNumberInput"
+                                           autocomplete="on"
+                                           placeholder="000-000-0000"
+                                           onblur="phonenumberFormat(this)" />
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label asp-for="SecondaryPhoneNumber">Secondary Phone Number</label>
+                                    <input asp-for="SecondaryPhoneNumber"
+                                           type="text"
+                                           class="form-control"
+                                           id="secondaryPhoneNumberInput"
+                                           autocomplete="on"
+                                           placeholder="000-000-0000"
+                                           maxlength="12"
+                                           oninput="phonenumberFormat(this)" />
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-2">
+                                <div class="form-group mb-3">
+                                    <label asp-for="Username">Username</label>
+                                    <input asp-for="Username"
+                                           type="text"
+                                           class="form-control"
+                                           id="usernameInput"
+                                           placeholder="Username" />
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label asp-for="Email">Email</label>
+                                    <input asp-for="Email"
+                                           type="email"
+                                           class="form-control"
+                                           id="emailInput"
+                                           placeholder="example@gmail.com" />
+                                </div>
+                                <div class="form-group mb-2">
+                                    <p class="form-text">If you want to change the password, fill out the fields</p>
+                                    <label asp-for="CurrentPassword">Current Password</label>
+                                    <input asp-for="CurrentPassword"
+                                           type="password"
+                                           class="form-control"
+                                           id="currentPasswordInput"
+                                           placeholder="Current Password" />
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label asp-for="NewPassword">New Password</label>
+                                    <input asp-for="NewPassword"
+                                           type="password"
+                                           class="form-control"
+                                           id="passwordInput"
+                                           placeholder="Leave blank to keep current password" />
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label asp-for="Address">Address</label>
+                                <input asp-for="Address"
+                                       type="text"
+                                       class="form-control"
+                                       placeholder="Address" />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Seleccionar la foto de perfil -->
+                    <div class="col-md-4">
+                        <div class="text-center">
+                            <img src="~/images/profileAvatars/@Model.Photo" class="profileavatar-img" id="defaultAvatar" />
+                            <h5>Profile Photo</h5>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <p><span class="form-text">(Optional)</span> Select an avatar:</p>
+                            @foreach (var profileAvatar in ViewBag.ProfileAvatars)
+                            {
+                                <div class="col-4 mb-2 text-center">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input visually-hidden"
+                                               type="radio"
+                                               asp-for="@Model.Photo"
+                                               id="@profileAvatar"
+                                               value="@profileAvatar" />
+                                        <img src="~/images/profileAvatars/@profileAvatar"
+                                             class="profileavatar-img"
+                                             data-value="@profileAvatar"
+                                             onclick="selectAvatar(this)" />
+                                    </label>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <input asp-for="Id" class="form-control" hidden />
+
+                    <button type="submit" class="mt-4 mb-3 btn btn-primary">Edit Account</button>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>
+
+@section Scripts{
+    <script src="~/js/SignUpScripts.js"></script>
+}

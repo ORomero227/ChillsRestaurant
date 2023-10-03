@@ -2,7 +2,7 @@
 
 namespace ChillsRestaurant.Models.EditModels
 {
-    public class EditAccountModel
+    public class ManagerEditAccountModel
     {
         [Required]
         [MinLength(3, ErrorMessage = "Name is too short")]
