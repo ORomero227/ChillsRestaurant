@@ -24,10 +24,16 @@ namespace ChillsRestaurant
                             .AddDefaultTokenProviders();
 
             builder.Services.Configure<IdentityOptions>(options => {
+
                 options.SignIn.RequireConfirmedEmail = true;
+                
                 //Password Setting
-                options.Password.RequiredLength = 8;
+                options.Password.RequiredLength = 3;
                 options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                
                 //Email Setting
                 options.User.RequireUniqueEmail = true;
             });

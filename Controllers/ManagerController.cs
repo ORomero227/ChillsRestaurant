@@ -4,6 +4,7 @@ using ChillsRestaurant.Models.ViewModels.Manager;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ChillsRestaurant.Controllers
 {
@@ -168,7 +169,7 @@ namespace ChillsRestaurant.Controllers
                 return View(user);
             }
 
-            return RedirectToAction("AccountManagement");
+            return RedirectToAction("AccountsManagement");
         }
 
         [HttpGet]
@@ -180,6 +181,12 @@ namespace ChillsRestaurant.Controllers
 
             if (user != null)
             {
+                if (user.UserName == "manager1")
+                {
+                    TempData["EditAccountError"] = "This account cannot be edited";
+                    return RedirectToAction("AccountsManagement");
+                }
+
                 if (user.SecondaryPhoneNumber == "Unregistered")
                 {
                     user.SecondaryPhoneNumber = "000-000-0000";
@@ -203,7 +210,7 @@ namespace ChillsRestaurant.Controllers
                 return View(model);
             }
 
-            return RedirectToAction("AcconuntManagement");
+            return RedirectToAction("AccountsManagement");
         }
 
         [HttpPost]
@@ -290,6 +297,30 @@ namespace ChillsRestaurant.Controllers
             }
 
             return View(model);
+        }
+
+        public async Task<IActionResult> DeleteAccount(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+
+            if (user != null)
+            {
+                if (user.UserName == "manager1")
+                {
+                    TempData["DeleteError"] = "This account cannot be deleted";
+                    return RedirectToAction("AccountsManagement");
+                }
+
+
+                _dbContext.Users.Remove(user);
+                await _dbContext.SaveChangesAsync();
+
+                TempData["DeleteSuccess"] = "Account deleted";
+                return RedirectToAction("AccountsManagement");
+            }
+
+            TempData["DeleteError"] = "An error occurred while deleting the account";
+            return RedirectToAction("AccountsManagement");
         }
 
     }

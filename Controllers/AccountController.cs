@@ -63,9 +63,9 @@ namespace ChillsRestaurant.Controllers
 
                 if (user != null)
                 {
-                    if (user.AccountStatus == "enable")
+                    if (user.EmailConfirmed) // Verifica si el correo está confirmado
                     {
-                        if (user.EmailConfirmed) // Verifica si el correo está confirmado
+                        if (user.AccountStatus == "enable")
                         {
                             await _signInManager.SignOutAsync();
                             Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(user, login.Password, isPersistent: false, lockoutOnFailure: false);
@@ -81,13 +81,13 @@ namespace ChillsRestaurant.Controllers
                         }
                         else
                         {
-                            ModelState.AddModelError(nameof(login.UserName), "Login Failed: Your email is not confirmed.");
-                            TempData["UserEmail"] = user.Email;
+                            ModelState.AddModelError(string.Empty, "Your account has been disabled");
                         }
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, "Your account has been disabled");
+                        ModelState.AddModelError(nameof(login.UserName), "Login Failed: Your email is not confirmed.");
+                        TempData["UserEmail"] = user.Email;
                     }
                 }
                 else
@@ -266,6 +266,7 @@ namespace ChillsRestaurant.Controllers
 
             if (user != null)
             {
+
                 if (user.SecondaryPhoneNumber == "Unregistered")
                 {
                     user.SecondaryPhoneNumber = "000-000-0000";
