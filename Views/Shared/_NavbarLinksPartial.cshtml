@@ -13,16 +13,28 @@
 
 @if (isAuthenticated)
 {
-    <ul class="navbar-nav flex-grow-1">
+    <ul class="navbar-nav ms-auto">
 
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-        </li>
+        @if (User.IsInRole("Manager"))
+        {
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Menu Actions
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" asp-controller="Home" asp-action="Index">Menu</a></li>
+                    <li><a class="dropdown-item" asp-controller="Manager" asp-action="CreateMenuItem">Create Menu Item</a></li>
+                </ul>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Menu</a>
+            </li>
+        }
 
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </li>
-
+       
         @if (User.IsInRole("Manager"))
         {
             <li class="nav-item dropdown">
@@ -31,23 +43,21 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" asp-controller="Manager" asp-action="AccountsManagement">Accounts Management</a></li>
-                    <li><a class="dropdown-item" href="#">Menu Management</a></li>
                 </ul>
             </li>
         }
 
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle d-flex align-items-center text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="~/images/profileAvatars/@profilePhoto" class="img-fluid rounded-circle profile-img me-1">Account
-            </a>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="@Url.Action("AccountProfile","Account", new{username = userName})">Manage Profile</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li>
-                    <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a>
-                </li>
-            </ul>
-        </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle d-flex align-items-center text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="~/images/profileAvatars/@profilePhoto" class="img-fluid rounded-circle profile-img me-1">Account
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="@Url.Action("AccountProfile","Account", new{username = userName})">Manage Profile</a></li>
+                </ul>
+            </li>
 
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">Logout</a>
+            </li>
     </ul>
 }

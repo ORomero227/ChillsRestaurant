@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace ChillsRestaurant.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -35,6 +37,7 @@ namespace ChillsRestaurant.Migrations
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Photo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Role = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AccountStatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -53,6 +56,22 @@ namespace ChillsRestaurant.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MenuItems",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(5,2)", nullable: false),
+                    Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Photo = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MenuItems", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -161,6 +180,21 @@ namespace ChillsRestaurant.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "MenuItems",
+                columns: new[] { "Id", "Category", "Description", "Name", "Photo", "Price" },
+                values: new object[,]
+                {
+                    { new Guid("3aad9ec8-214e-4d1e-bff7-42f89bdf9c25"), "Burgers", "Delicious vegan burger.", "Veggie Burger", "Hambuegervagena.png", 8.99m },
+                    { new Guid("77c66861-ff97-4fd7-9f31-8db1781088c6"), "Burgers", "Delicious burger with bbq sauce and bacon.", "BBQ Burger", "bbqbuerger.png", 9.99m },
+                    { new Guid("7999ee28-28e1-4052-a316-3069543adc3c"), "Pasta", "Delicious Lasagna with cream cheese, cheese and red sauce.", "Lasagna", "lasagna.png", 14.99m },
+                    { new Guid("7f2871e4-ffe6-4ba1-8046-1549c86900cd"), "Desserts", "Delicious cheesecake with cream cheese, fresh cheese", "Cheescake", "cheescake.png", 5.99m },
+                    { new Guid("a2984f54-af8f-4dc3-b65f-f08760886339"), "Desserts", "Delicious chocolate cake", "Chocolate Cake", "chocolate.png", 5.99m },
+                    { new Guid("c0a125c4-3b9c-413d-9756-b4a783f80cac"), "Pasta", "Delicious Spaghetti with red sauce.", "Spaghetti", "spagetti.png", 12.99m },
+                    { new Guid("c6d5dfbf-332a-4e6e-a0c3-0d9476c54f7e"), "Pasta", "Delicious Alfredo Pasta with white sauce.", "Alfredo Pasta", "alfredo.png", 14.99m },
+                    { new Guid("fde86925-0fa4-45b9-a8fa-41e9e65d2a1b"), "Burgers", "Delicious burger with meat, lettuce, tomato and cheese.", "Classic Burger", "Hambuerger.png", 5.99m }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -218,6 +252,9 @@ namespace ChillsRestaurant.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "MenuItems");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

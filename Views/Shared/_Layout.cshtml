@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/Homestyle.css" asp-append-version="true" />
-    
+
     <link rel="stylesheet" href="~/ChillsRestaurant.styles.css" asp-append-version="true" />
 </head>
 <body>
@@ -20,12 +20,13 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <partial name="_NavbarLinksPartial" />
+                <partial name="_NavbarLinksPartial" />
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
+
+    <div class="container-fluid">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

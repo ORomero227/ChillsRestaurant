@@ -108,6 +108,110 @@ namespace ChillsRestaurant.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("ChillsRestaurant.Models.MenuItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Photo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(5,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MenuItems");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("fde86925-0fa4-45b9-a8fa-41e9e65d2a1b"),
+                            Category = "Burgers",
+                            Description = "Delicious burger with meat, lettuce, tomato and cheese.",
+                            Name = "Classic Burger",
+                            Photo = "Hambuerger.png",
+                            Price = 5.99m
+                        },
+                        new
+                        {
+                            Id = new Guid("3aad9ec8-214e-4d1e-bff7-42f89bdf9c25"),
+                            Category = "Burgers",
+                            Description = "Delicious vegan burger.",
+                            Name = "Veggie Burger",
+                            Photo = "Hambuegervagena.png",
+                            Price = 8.99m
+                        },
+                        new
+                        {
+                            Id = new Guid("77c66861-ff97-4fd7-9f31-8db1781088c6"),
+                            Category = "Burgers",
+                            Description = "Delicious burger with bbq sauce and bacon.",
+                            Name = "BBQ Burger",
+                            Photo = "bbqbuerger.png",
+                            Price = 9.99m
+                        },
+                        new
+                        {
+                            Id = new Guid("c0a125c4-3b9c-413d-9756-b4a783f80cac"),
+                            Category = "Pasta",
+                            Description = "Delicious Spaghetti with red sauce.",
+                            Name = "Spaghetti",
+                            Photo = "spagetti.png",
+                            Price = 12.99m
+                        },
+                        new
+                        {
+                            Id = new Guid("c6d5dfbf-332a-4e6e-a0c3-0d9476c54f7e"),
+                            Category = "Pasta",
+                            Description = "Delicious Alfredo Pasta with white sauce.",
+                            Name = "Alfredo Pasta",
+                            Photo = "alfredo.png",
+                            Price = 14.99m
+                        },
+                        new
+                        {
+                            Id = new Guid("7999ee28-28e1-4052-a316-3069543adc3c"),
+                            Category = "Pasta",
+                            Description = "Delicious Lasagna with cream cheese, cheese and red sauce.",
+                            Name = "Lasagna",
+                            Photo = "lasagna.png",
+                            Price = 14.99m
+                        },
+                        new
+                        {
+                            Id = new Guid("7f2871e4-ffe6-4ba1-8046-1549c86900cd"),
+                            Category = "Desserts",
+                            Description = "Delicious cheesecake with cream cheese, fresh cheese",
+                            Name = "Cheescake",
+                            Photo = "cheescake.png",
+                            Price = 5.99m
+                        },
+                        new
+                        {
+                            Id = new Guid("a2984f54-af8f-4dc3-b65f-f08760886339"),
+                            Category = "Desserts",
+                            Description = "Delicious chocolate cake",
+                            Name = "Chocolate Cake",
+                            Photo = "chocolate.png",
+                            Price = 5.99m
+                        });
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")

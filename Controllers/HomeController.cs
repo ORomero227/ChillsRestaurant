@@ -9,14 +9,20 @@ namespace ChillsRestaurant.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ChillsRestaurantDBContext _dbContext;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ChillsRestaurantDBContext dbContext)
         {
             _logger = logger;
+            _dbContext = dbContext;
         }
 
         public IActionResult Index()
         {
+            ViewBag.ListOfBurgers = _dbContext.MenuItems.Where(m => m.Category == "Burgers").ToList();
+            ViewBag.ListOfPasta = _dbContext.MenuItems.Where(m => m.Category == "Pasta").ToList();
+            ViewBag.ListOfDesserts = _dbContext.MenuItems.Where(m => m.Category == "Desserts").ToList();
+
             return View();
         }
 
