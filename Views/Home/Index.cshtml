@@ -3,6 +3,35 @@
 }
 
 <div class="container-fluid">
+
+    <div class="container-fluid">
+        @{
+            if (TempData["CreateItemSuccess"] != null)
+            {
+                <div class="container alert alert-success d-flex justify-content-between" role="alert">
+                    @TempData["CreateItemSuccess"]
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            if (TempData["DeleteItemSuccess"] != null)
+            {
+                <div class="container alert alert-success d-flex justify-content-between" role="alert">
+                    @TempData["DeleteItemSuccess"]
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            if (TempData["EditItemSucess"] != null)
+            {
+                <div class="container alert alert-success d-flex justify-content-between" role="alert">
+                    @TempData["EditItemSucess"]
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+        }
+    </div>
+
     <section class="menu-section">
         <h2>Variety Of Burgers</h2>
 
@@ -16,9 +45,32 @@
                             <h5 class="card-title">@burger.Name</h5>
                             <p class="card-text">@burger.Description</p>
                         </div>
-                        <div class="card-footer">
+                        <div class="card-footer text-center">
                             <p class="card-text">$@burger.Price</p>
-                            <a asp-controller="Orders" asp-action="Index" class="btn btn-success d-grid">Add to Order</a>
+                            <div class="btn-group">
+                                <a asp-controller="Orders" 
+                                   asp-action="Index"
+                                   class="btn btn-success"
+                                   data-bs-toggle="tooltip" title="Add To Order">
+                                    <i class="fa-solid fa-cart-plus"></i>
+                                </a>
+                                @{
+                                    if (User.IsInRole("Manager"))
+                                    {
+                                        <a href="@Url.Action("DeleteItem","Manager", new{itemName = burger.Name})" 
+                                           class="btn btn-danger"
+                                           onclick="return confirmDelete()"
+                                           data-bs-toggle="tooltip" title="Delete">
+                                           <i class="fa-solid fa-trash"></i>
+                                        </a>
+                                        <a href="@Url.Action("EditMenuItem","Manager", new{itemName = burger.Name})"
+                                           class="btn btn-primary"
+                                           data-bs-toggle="tooltip" title="Edit">
+                                            <i class="fa-solid fa-pencil"></i>
+                                        </a>
+                                    }
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -39,9 +91,32 @@
                             <h5 class="card-title">@pasta.Name</h5>
                             <p class="card-text">@pasta.Description</p>
                         </div>
-                        <div class="card-footer">
+                        <div class="card-footer text-center">
                             <p class="card-text">$@pasta.Price</p>
-                            <a asp-controller="Orders" asp-action="Index" class="btn btn-success d-grid">Add to Order</a>
+                            <div class="btn-group">
+                                <a asp-controller="Orders"
+                                   asp-action="Index"
+                                   class="btn btn-success"
+                                   data-bs-toggle="tooltip" title="Add To Order">
+                                    <i class="fa-solid fa-cart-plus"></i>
+                                </a>
+                                @{
+                                    if (User.IsInRole("Manager"))
+                                    {
+                                        <a href="@Url.Action("DeleteItem","Manager", new{itemName = pasta.Name})"
+                                           class="btn btn-danger"
+                                           onclick="return confirmDelete()"
+                                           data-bs-toggle="tooltip" title="Delete">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </a>
+                                        <a href="@Url.Action("EditMenuItem","Manager", new{itemName = pasta.Name})"
+                                           class="btn btn-primary"
+                                           data-bs-toggle="tooltip" title="Edit">
+                                            <i class="fa-solid fa-pencil"></i>
+                                        </a>
+                                    }
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -62,9 +137,32 @@
                             <h5 class="card-title">@dessert.Name</h5>
                             <p class="card-text">@dessert.Description</p>
                         </div>
-                        <div class="card-footer">
+                        <div class="card-footer text-center">
                             <p class="card-text">$@dessert.Price</p>
-                            <a asp-controller="Orders" asp-action="Index" class="btn btn-success d-grid">Add to Order</a>
+                            <div class="btn-group">
+                                <a asp-controller="Orders"
+                                   asp-action="Index"
+                                   class="btn btn-success"
+                                   data-bs-toggle="tooltip" title="Add To Order">
+                                    <i class="fa-solid fa-cart-plus"></i>
+                                </a>
+                                @{
+                                    if (User.IsInRole("Manager"))
+                                    {
+                                        <a href="@Url.Action("DeleteItem","Manager", new{itemName = dessert.Name})"
+                                           class="btn btn-danger"
+                                           onclick="return confirmDelete()"
+                                           data-bs-toggle="tooltip" title="Delete">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </a>
+                                        <a href="@Url.Action("EditMenuItem","Manager", new{itemName = dessert.Name})"
+                                           class="btn btn-primary"
+                                           data-bs-toggle="tooltip" title="Edit">
+                                            <i class="fa-solid fa-pencil"></i>
+                                        </a>
+                                    }
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -72,3 +170,12 @@
         </div>
     </section>
 </div>
+
+
+@section Scripts{
+    <script>
+        function confirmDelete() {
+            return confirm("Are you sure you want to delete this item?");
+        }
+    </script>
+}

@@ -1,17 +1,18 @@
 ﻿@using ChillsRestaurant.Models.ViewModels.Manager;
-@model CreateMenuItem
+@model EditMenuItem
 @{
-    ViewData["Title"] = "Creating Menu Item";
+    ViewData["Title"] = "Editing Menu Item";
 }
+
 
 <div class="container-fluid">
     <div class="container mt-4">
-        <h3 id="MainTitle">Creating Item</h3>
+        <h3 id="MainTitle">Editing Item</h3>
     </div>
 
     <section>
         <div class="container">
-            <form asp-action="CreateMenuItem" asp-controller="Manager" method="post">
+            <form asp-action="EditMenuItem" asp-controller="Manager" method="post">
                 <div class="row">
                     <!-- Informacion del item -->
                     <div class="col-md-8">
@@ -32,7 +33,6 @@
                                 <div class="form-group mb-3">
                                     <label asp-for="Category" class="form-label">Select the category<span class="text-danger">*</span></label>
                                     <select asp-for="Category" onchange="selectCategory(this)" class="form-control">
-                                        <option selected>Category</option>
                                         @foreach (var category in ViewBag.ItemsCategory)
                                         {
                                             <option value="@category">@category</option>
@@ -52,12 +52,11 @@
                                 <div class="form-group mb-3">
                                     <label asp-for="Price" class="form-label">Price<span class="text-danger">*</span></label>
                                     <input asp-for="Price"
-                                           type="number" 
-                                           step="0.01" 
+                                           type="number"
+                                           step="0.01"
                                            class="form-control"
-                                           id="priceInput" 
-                                           placeholder="0.00" 
-                                           />
+                                           id="priceInput"
+                                           placeholder="0.00" />
                                 </div>
                                 <div class="form-group mb-3">
                                     <label asp-for="Description" class="form-label">Description<span class="text-danger">*</span></label>
@@ -73,12 +72,12 @@
                     <!-- Seleccionar la foto de perfil -->
                     <div class="col-md-4">
                         <div class="text-center">
-                            <img src="~/images/Comida/default-food.png" class="profileavatar-img" id="defaultItemImage" />
+                            <img src="~/images/Comida/@Model.Photo" class="profileavatar-img" id="defaultItemImage" />
                             <h5>Item Photo</h5>
                         </div>
                         <hr />
                         <div class="mt-4 mb-3">
-                            
+
                             <p class="select-image-message">Select a category to view the images<span class="text-danger">*</span></p>
 
                             <div class="row food-images burgers-images">
@@ -140,11 +139,12 @@
                         </div>
                     </div>
 
-                    
-                    <button type="submit" class="mt-4 mb-3 btn btn-primary">Create Item</button>
+                    <input asp-for="Id" readonly hidden/>
+
+                    <button type="submit" class="mt-4 mb-3 btn btn-primary">Edit Item</button>
                     <button type="reset" class="btn btn-warning mb-3" id="btnClear" onclick="resetAll()">Clear</button>
                     <a class="btn btn-primary mb-3" asp-action="Index" asp-controller="Home">Return</a>
-                    
+
                 </div>
             </form>
         </div>

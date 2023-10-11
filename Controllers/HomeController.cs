@@ -1,4 +1,5 @@
 ﻿using ChillsRestaurant.Models;
+using ChillsRestaurant.Models.EditModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -19,6 +20,7 @@ namespace ChillsRestaurant.Controllers
 
         public IActionResult Index()
         {
+            //Se pasan los items disponibles
             ViewBag.ListOfBurgers = _dbContext.MenuItems.Where(m => m.Category == "Burgers").ToList();
             ViewBag.ListOfPasta = _dbContext.MenuItems.Where(m => m.Category == "Pasta").ToList();
             ViewBag.ListOfDesserts = _dbContext.MenuItems.Where(m => m.Category == "Desserts").ToList();

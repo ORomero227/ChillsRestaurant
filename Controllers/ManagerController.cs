@@ -70,7 +70,7 @@ namespace ChillsRestaurant.Controllers
         /// <returns>Un array con todos los estados posibles</returns>
         public string[] GetAccountStatus()
         {
-            string[] status = new string[] { "Enable","Disable" };
+            string[] status = new string[] { "enable","disable" };
 
             return status;
         }
@@ -467,13 +467,101 @@ namespace ChillsRestaurant.Controllers
                 _dbContext.MenuItems.Add(menuItem);
 
                 await _dbContext.SaveChangesAsync();
-
+                TempData["CreateItemSuccess"] = "Item Created Successfully";
                 return RedirectToAction("Index", "Home");
 
             }
 
             return View(model);
         }
+        #endregion
+
+
+        #region Eliminar Item
+        /// <summary>
+        /// Metodo asincrono para borrar el item del menu indicada por el nombre del item
+        /// </summary>
+        /// <param name="itemName">Nombre del item que se va a borrar</param>
+        /// <returns></returns>
+        public async Task<IActionResult> DeleteItem(string itemName)
+        {
+            var item = await _dbContext.MenuItems.FirstOrDefaultAsync(m => m.Name == itemName); //Se busca el item
+
+            if (item != null)
+            {
+                
+                _dbContext.MenuItems.Remove(item); //Se elimina de la base de datos
+
+                await _dbContext.SaveChangesAsync(); //Actualizar la base de datos
+
+                TempData["DeleteItemSuccess"] = "Item deleted"; //Mensaje de confirmacion
+
+                return RedirectToAction("Index","Home");
+            }
+
+            TempData["DeleteItemError"] = "An error occurred while deleting the account"; //Mensaje de error
+
+            return RedirectToAction("Index","Home");
+        }
+        #endregion
+
+
+        #region Editar Item
+
+        [HttpGet]
+        public async Task<IActionResult> EditMenuItem(string itemName)
+        {
+            PassFoodImagesToView();
+
+            var item = await _dbContext.MenuItems.FirstOrDefaultAsync(m=> m.Name == itemName);
+
+            if (item != null)
+            {
+                EditMenuItem model = new EditMenuItem
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    Description = item.Description,
+                    Price = item.Price,
+                    Category = item.Category,
+                    Photo = item.Photo
+                };
+
+                return View(model);
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> EditMenuItem(EditMenuItem model)
+        {
+            PassFoodImagesToView();
+
+            var item = await _dbContext.MenuItems.FirstOrDefaultAsync(m=> m.Id == model.Id);
+
+            if (item != null)
+            {
+                item.Name = model.Name;
+                item.Description = model.Description;
+                item.Price = model.Price;
+                item.Category = model.Category; 
+                item.Photo = model.Photo;
+
+                _dbContext.MenuItems.Update(item);
+
+                await _dbContext.SaveChangesAsync();
+
+                TempData["EditItemSucess"] = "Item Edited Successfully";
+
+                return RedirectToAction("Index","Home");
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
+
+
         #endregion
     }
 }

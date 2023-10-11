@@ -1,7 +1,12 @@
 ﻿@using ChillsRestaurant.Models.EditModels;
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
 @model AccountEditAccountModel
 @{
-    //Edit Account profile
+    ViewData["Title"] = "Editing Account";
+
+    var user = await UserManager.GetUserAsync(User);
+    var userName = user?.UserName;
 }
 
 <div class="container-fluid">
@@ -82,23 +87,26 @@
                                            id="emailInput"
                                            placeholder="example@gmail.com" />
                                 </div>
-                                <div class="form-group mb-2">
-                                    <p class="form-text">If you want to change the password, fill out the fields</p>
-                                    <label asp-for="CurrentPassword">Current Password</label>
-                                    <input asp-for="CurrentPassword"
-                                           type="password"
-                                           class="form-control"
-                                           id="currentPasswordInput"
-                                           placeholder="Current Password" />
-                                </div>
-                                <div class="form-group mb-3">
-                                    <label asp-for="NewPassword">New Password</label>
-                                    <input asp-for="NewPassword"
-                                           type="password"
-                                           class="form-control"
-                                           id="passwordInput"
-                                           placeholder="Leave blank to keep current password" />
-                                </div>
+                                @if(userName != "manager1")
+                                {
+                                    <div class="form-group mb-2">
+                                        <p class="form-text">If you want to change the password, fill out the fields</p>
+                                        <label asp-for="CurrentPassword">Current Password</label>
+                                        <input asp-for="CurrentPassword"
+                                               type="password"
+                                               class="form-control"
+                                               id="currentPasswordInput"
+                                               placeholder="Current Password" />
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label asp-for="NewPassword">New Password</label>
+                                        <input asp-for="NewPassword"
+                                               type="password"
+                                               class="form-control"
+                                               id="passwordInput"
+                                               placeholder="Leave blank to keep current password" />
+                                    </div>
+                                }
                             </div>
                             <div class="form-group mb-3">
                                 <label asp-for="Address">Address</label>

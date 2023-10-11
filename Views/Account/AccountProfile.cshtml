@@ -1,11 +1,15 @@
 ﻿@model ApplicationUser
+@{
+    ViewData["Title"] = "Profile";
+}
+
 
 <div class="container-fluid">
 
     <div class="container d-flex justify-content-between">
         <h3>Account Information</h3>
         <div>
-            <a class="btn btn-primary" href="@Url.Action("EditAccount","Account", new{username = Model.UserName})">Edit</a>
+            <a class="btn btn-primary" href="@Url.Action("EditAccount","Account", new{ username = Model.UserName})">Edit</a>
             <a class="btn btn-primary" asp-action="Index" asp-controller="Home">Return</a>
         </div>
     </div>
