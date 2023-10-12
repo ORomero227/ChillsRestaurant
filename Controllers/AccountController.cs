@@ -113,11 +113,18 @@ namespace ChillsRestaurant.Controllers
             await _signInManager.SignOutAsync();
 
             //El Api intenta autenticar el usuario usando el username y el password
-            var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
+            var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, true);
 
             if (result.Succeeded)
             {
                 return Redirect(model.ReturnUrl ?? "/"); //Si es exitoso se redirige a la vista del menu
+            } 
+            else if (result.IsLockedOut) 
+            {
+                user.AccountStatus = "disabled";
+                await _userManager.UpdateAsync(user);
+                ModelState.AddModelError(nameof(model.UserName), "Login Failed: Account is locked out");
+                return View(model);
             }
             else
             {

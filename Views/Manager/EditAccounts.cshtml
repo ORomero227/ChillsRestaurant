@@ -111,7 +111,7 @@
                                 </div>
                             </div>
                             <div class="form-group mb-3">
-                                <label asp-for="AccountStatus">Account Status</label>
+                                <label asp-for="AccountStatus">Current Account Status: @Model.AccountStatus</label>
                                 <select class="form-select" aria-label="Default select example" asp-for="AccountStatus">
                                     @foreach (var status in ViewBag.AccountStatus)
                                     {

@@ -24,9 +24,12 @@ namespace ChillsRestaurant
                             .AddDefaultTokenProviders();
 
             builder.Services.Configure<IdentityOptions>(options => {
-
+                //Login
                 options.SignIn.RequireConfirmedEmail = true;
-                
+                options.Lockout.AllowedForNewUsers = true;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
+                options.Lockout.MaxFailedAccessAttempts = 3;
+
                 //Password Setting
                 options.Password.RequiredLength = 3;
                 options.Password.RequireNonAlphanumeric = false;
