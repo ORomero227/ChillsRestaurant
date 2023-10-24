@@ -1,4 +1,5 @@
 ﻿using ChillsRestaurant.Models;
+using ChillsRestaurant.Models.AuthenticationModels;
 using ChillsRestaurant.Models.EditModels;
 using ChillsRestaurant.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
