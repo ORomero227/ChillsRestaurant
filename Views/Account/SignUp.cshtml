@@ -2,7 +2,10 @@
 @model User
 @{
     ViewData["Title"] = "Sign Up";
-    Layout = "~/Views/Shared/_AuthenticationLayout.cshtml";
+    if(!User.IsInRole("Employee"))
+    {
+         Layout = "~/Views/Shared/_AuthenticationLayout.cshtml";
+    }
 }
 
 <div class="container-fluid maincontainer">
@@ -101,7 +104,7 @@
                     <!-- Seleccionar la foto de perfil -->
                     <div class="col-md-4">
                         <div class="text-center">
-                            <img src="~/images/profileAvatars/avatar-default.png" class="profile-img" id="defaultAvatar" />
+                            <img src="~/images/profileAvatars/avatar-default.png" class="profileavatar-img" id="defaultAvatar" />
                             <h5>Profile Photo</h5>
                         </div>
                         <hr />
@@ -117,7 +120,7 @@
                                                id="@profileAvatar"
                                                value="@profileAvatar" />
                                         <img src="~/images/profileAvatars/@profileAvatar"
-                                             class="profile-img"
+                                             class="profileavatar-img"
                                              data-value="@profileAvatar"
                                              onclick="selectAvatar(this)" />
                                     </label>

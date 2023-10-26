@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ChillsRestaurant.Controllers
 {
-    [Authorize(Roles = "Manager")]
+    [Authorize(Roles = "Manager,Employee")]
     public class ManagerController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -108,7 +108,6 @@ namespace ChillsRestaurant.Controllers
             model.Users = _userManager.Users.ToList(); //Lista de todos los usuarios
             return View(model);
         }
-
         #endregion
 
 

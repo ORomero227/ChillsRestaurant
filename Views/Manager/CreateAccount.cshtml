@@ -97,15 +97,23 @@
                                        class="form-control"
                                        placeholder="Address" />
                             </div>
-                            <div class="form-group mb-3">
-                                <label>Role</label>
-                                <select class="form-select" aria-label="Default select example" asp-for="Role">
-                                    @foreach(var role in ViewBag.Roles)
-                                    {
-                                        <option value="@role">@role</option>
-                                    }
-                                </select>
-                            </div>
+                            @if (User.IsInRole("Employee"))
+                            {
+                                <div class="form-group mb-3">
+                                    <label>Role</label>
+                                   <input hidden asp-for="@Model.Role" value="Client">
+                                </div>
+                            }else{
+                                <div class="form-group mb-3">
+                                    <label>Role</label>
+                                    <select class="form-select" aria-label="Default select example" asp-for="Role">
+                                        @foreach (var role in ViewBag.Roles)
+                                        {
+                                            <option value="@role">@role</option>
+                                        }
+                                    </select>
+                                </div>
+                            }
                         </div>
                     </div>
                     <!-- Seleccionar la foto de perfil -->
