@@ -28,3 +28,7 @@ body {
 .profileavatar-img {
     max-width: 100px;
 }
+
+.menuItemPhoto{
+    max-width: 80px;
+}

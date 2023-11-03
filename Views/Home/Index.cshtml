@@ -29,6 +29,22 @@
                     <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             }
+            
+            if (TempData["ErrorAddToCart"] != null)
+            {
+                <div class="container alert alert-danger d-flex justify-content-between" role="alert">
+                    @TempData["ErrorAddToCart"]
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            if (TempData["SuccessAddToCart"] != null)
+            {
+                <div class="container alert alert-success d-flex justify-content-between" role="alert">
+                    @TempData["SuccessAddToCart"]
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
         }
     </div>
 
@@ -48,12 +64,14 @@
                         <div class="card-footer text-center">
                             <p class="card-text">$@burger.Price</p>
                             <div class="btn-group">
-                                <a asp-controller="Orders" 
-                                   asp-action="Index"
-                                   class="btn btn-success"
-                                   data-bs-toggle="tooltip" title="Add To Order">
-                                    <i class="fa-solid fa-cart-plus"></i>
-                                </a>
+                                
+                                <form method="post" asp-action="AddToOrder" asp-controller="Order">
+                                    <input name="itemName" value="@burger.Name" hidden>
+                                    <button class="btn btn-success" type="submit" data-bs-toggle="tooltip" title="Add To Order">
+                                        <i class="fa-solid fa-cart-plus"></i>
+                                    </button>
+                                </form>
+
                                 @{
                                     if (User.IsInRole("Manager"))
                                     {
@@ -94,12 +112,14 @@
                         <div class="card-footer text-center">
                             <p class="card-text">$@pasta.Price</p>
                             <div class="btn-group">
-                                <a asp-controller="Orders"
-                                   asp-action="Index"
-                                   class="btn btn-success"
-                                   data-bs-toggle="tooltip" title="Add To Order">
-                                    <i class="fa-solid fa-cart-plus"></i>
-                                </a>
+
+                                <form method="post" asp-action="AddToOrder" asp-controller="Order">
+                                    <input name="itemName" value="@pasta.Name" hidden>
+                                    <button class="btn btn-success" type="submit" data-bs-toggle="tooltip" title="Add To Order">
+                                        <i class="fa-solid fa-cart-plus"></i>
+                                    </button>
+                                </form>
+                                
                                 @{
                                     if (User.IsInRole("Manager"))
                                     {
@@ -140,12 +160,14 @@
                         <div class="card-footer text-center">
                             <p class="card-text">$@dessert.Price</p>
                             <div class="btn-group">
-                                <a asp-controller="Orders"
-                                   asp-action="Index"
-                                   class="btn btn-success"
-                                   data-bs-toggle="tooltip" title="Add To Order">
-                                    <i class="fa-solid fa-cart-plus"></i>
-                                </a>
+
+                                <form method="post" asp-action="AddToOrder" asp-controller="Order">
+                                    <input name="itemName" value="@dessert.Name" hidden>
+                                    <button class="btn btn-success" type="submit" data-bs-toggle="tooltip" title="Add To Order">
+                                        <i class="fa-solid fa-cart-plus"></i>
+                                    </button>
+                                </form>
+
                                 @{
                                     if (User.IsInRole("Manager"))
                                     {

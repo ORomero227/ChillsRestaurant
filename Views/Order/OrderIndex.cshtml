@@ -1,0 +1,54 @@
+﻿@using ChillsRestaurant.Models.ViewModels.Order
+@model OrderIndexViewModel
+
+@{
+    ViewData["Title"] = "Order";
+}
+
+
+<div class="container-fluid">
+    <div class="container d-flex justify-content-between">
+        <h3>My Order</h3>
+        <div>
+            <a class="btn btn-primary" asp-action="Index" asp-controller="Home">Return</a>
+        </div>
+    </div>
+    <hr />
+
+    @if (Model.itemsInOrder.Count == 0)
+    {
+        <h3>Order is empty</h3>
+    }
+    else
+    {
+        decimal totalPrice = 0;
+
+        <table class="table table-light">
+            <thead>
+                <tr>
+                    <th scope="col">Image</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var menuItem in Model.itemsInOrder)
+                {
+                    <tr>
+                        <td><img src="~/images/Comida/@menuItem.Photo" alt="@menuItem.Name" class="img-fluid menuItemPhoto me-1" /></td>
+                        <td>@menuItem.Name</td>
+                        <td>@menuItem.Price.ToString("C")</td>
+                    </tr>
+
+                    totalPrice += menuItem.Price;
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2">Total:</td>
+                    <td>@totalPrice.ToString("C")</td>
+                </tr>
+            </tfoot>
+        </table>
+    }
+</div>

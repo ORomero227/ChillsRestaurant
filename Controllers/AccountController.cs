@@ -140,7 +140,10 @@ namespace ChillsRestaurant.Controllers
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync();
+            await _signInManager.SignOutAsync(); //Se cierra la sesion
+
+            HttpContext.Session.Clear(); //Se borran los datos de la sesion
+
             return RedirectToAction("Index", "Home"); //En este caso se devuelve el login 
         }
 

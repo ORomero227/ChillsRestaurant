@@ -23,6 +23,7 @@ namespace ChillsRestaurant
                             .AddEntityFrameworkStores<ChillsRestaurantDBContext>()
                             .AddDefaultTokenProviders();
 
+            //Configuracion para Identity
             builder.Services.Configure<IdentityOptions>(options => {
                 //Login
                 options.SignIn.RequireConfirmedEmail = true;
@@ -40,19 +41,30 @@ namespace ChillsRestaurant
                 //Email Setting
                 options.User.RequireUniqueEmail = true;
             });
-
+            
+            //Configuracion de la cookies
             builder.Services.ConfigureApplicationCookie(options => 
             {
                 options.LoginPath = "/Account/Login";
             });
 
             //Add services to container
+
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            builder.Services.AddDistributedMemoryCache();
+            builder.Services.AddSession(options => 
+            { 
+                //Tiempo que van a durar los datos de la session
+                options.IdleTimeout = TimeSpan.FromMinutes(10);
+            });
 
             builder.Services.AddScoped<UsersSetupService>();
 
             var app = builder.Build();
 
+            //Se cargan los usuarios predeterminados
             using (var scope = app.Services.CreateScope())
             {
                 var usersSetupService = scope.ServiceProvider.GetRequiredService<UsersSetupService>();
@@ -70,6 +82,8 @@ namespace ChillsRestaurant
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseSession();
 
             app.UseRouting();
 
