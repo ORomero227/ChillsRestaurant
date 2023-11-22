@@ -68,7 +68,7 @@ namespace ChillsRestaurant.Controllers
         /// Obtener todas las opciones para el status de una cuenta
         /// </summary>
         /// <returns>Un array con todos los estados posibles</returns>
-        public string[] GetAccountStatus()
+        public string[] GetAvailableStatus()
         {
             string[] status = new string[] { "enable","disable" };
 
@@ -91,6 +91,16 @@ namespace ChillsRestaurant.Controllers
 
         #endregion
 
+        /// <summary>
+        /// Genera un numero de 4 digitos para el pinnumber
+        /// </summary>
+        /// <returns></returns>
+        private string GetRandomPinNumber()
+        {
+            Random rnd = new Random();
+            string pinNumber = rnd.Next(1000,9999).ToString();
+            return pinNumber;
+        }
 
         //------------------------------------------------------------
         //              Accounts Management
@@ -167,6 +177,7 @@ namespace ChillsRestaurant.Controllers
                 Address = user.Address,
                 Photo = user.Photo,
                 Role = user.Role,
+                PinNumber = GetRandomPinNumber(),
                 AccountStatus = "enable",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
@@ -235,7 +246,7 @@ namespace ChillsRestaurant.Controllers
             //Se pasan los roles disponibles
             ViewBag.Roles = _roleManager.Roles;
             //Se pasan los estados de cuentas disponibles
-            ViewBag.AccountStatus = GetAccountStatus();
+            ViewBag.AccountStatus = GetAvailableStatus();
 
             var user = await _userManager.FindByNameAsync(username); //Se busca el usuario
 
@@ -251,6 +262,9 @@ namespace ChillsRestaurant.Controllers
                 //Si Secondary Phonenumber es unregistered se cambia a 000-000-0000
                 user.SecondaryPhoneNumber = user.SecondaryPhoneNumber == "Unregistered" ? "000-000-0000" : user.SecondaryPhoneNumber;
 
+                //Si el pin number era N/A se crea uno nuevo
+                user.PinNumber = user.PinNumber == "N/A" ? GetRandomPinNumber() : user.PinNumber;
+
                 //Se crea el modelo que se va a pasar a la vista con los valores llenos
                 //Los campos con ?? = "" significa si son null el valor va a ser en ""
                 ManagerEditAccountModel model = new ManagerEditAccountModel
@@ -262,6 +276,7 @@ namespace ChillsRestaurant.Controllers
                     Photo = user.Photo,
                     PrimaryPhoneNumber = user.PhoneNumber ?? "" ,
                     SecondaryPhoneNumber = user.SecondaryPhoneNumber,
+                    PinNumber = user.PinNumber,
                     NewPassword = "",
                     NewRole = user.Role,
                     AccountStatus = user.AccountStatus,
@@ -287,7 +302,7 @@ namespace ChillsRestaurant.Controllers
             //Se pasan los roles disponibles
             ViewBag.Roles = _roleManager.Roles;
             //Se pasan los estados de cuentas disponibles
-            ViewBag.AccountStatus = GetAccountStatus();
+            ViewBag.AccountStatus = GetAvailableStatus();
 
             if (ModelState.IsValid)
             {
@@ -324,6 +339,12 @@ namespace ChillsRestaurant.Controllers
                             await _userManager.RemoveFromRoleAsync(user, user.Role); //Se elimina del rol que estaba
                             await _userManager.AddToRoleAsync(user, model.NewRole); //Se anade al nuevo rol
                             user.Role = model.NewRole; //Se actualiza el rol
+
+                            //Si el rol cambio a cliente se cambia el pinnumber
+                            if (user.Role == "Client")
+                            {
+                                model.PinNumber = "N/A";
+                            }
                         }
                         else
                         {
@@ -345,6 +366,7 @@ namespace ChillsRestaurant.Controllers
                     user.SecondaryPhoneNumber = model.SecondaryPhoneNumber;
                     user.Role = model.NewRole;
                     user.AccountStatus = model.AccountStatus;
+                    user.PinNumber = model.PinNumber;
 
                     //Resultado del api actualizando el user
                     var result = await _userManager.UpdateAsync(user);
@@ -460,14 +482,15 @@ namespace ChillsRestaurant.Controllers
                     Description = model.Description,
                     Price = model.Price,
                     Category = model.Category,
-                    Photo = model.Photo
+                    Photo = model.Photo,
+                    Status = "enable"
                 };
 
                 _dbContext.MenuItems.Add(menuItem);
 
                 await _dbContext.SaveChangesAsync();
                 TempData["CreateItemSuccess"] = "Item Created Successfully";
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Inventory", "Manager");
 
             }
 
@@ -495,12 +518,12 @@ namespace ChillsRestaurant.Controllers
 
                 TempData["DeleteItemSuccess"] = "Item deleted"; //Mensaje de confirmacion
 
-                return RedirectToAction("Index","Home");
+                return RedirectToAction("Inventory","Manager");
             }
 
             TempData["DeleteItemError"] = "An error occurred while deleting the account"; //Mensaje de error
 
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Inventory","Manager");
         }
         #endregion
 
@@ -511,6 +534,8 @@ namespace ChillsRestaurant.Controllers
         public async Task<IActionResult> EditMenuItem(string itemName)
         {
             PassFoodImagesToView();
+
+            ViewBag.Status = GetAvailableStatus();
 
             var item = await _dbContext.MenuItems.FirstOrDefaultAsync(m=> m.Name == itemName);
 
@@ -523,13 +548,14 @@ namespace ChillsRestaurant.Controllers
                     Description = item.Description,
                     Price = item.Price,
                     Category = item.Category,
-                    Photo = item.Photo
+                    Photo = item.Photo,
+                    Status = item.Status
                 };
 
                 return View(model);
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Inventory", "Manager");
         }
         
         [HttpPost]
@@ -546,6 +572,7 @@ namespace ChillsRestaurant.Controllers
                 item.Price = model.Price;
                 item.Category = model.Category; 
                 item.Photo = model.Photo;
+                item.Status = model.Status;
 
                 _dbContext.MenuItems.Update(item);
 
@@ -553,14 +580,44 @@ namespace ChillsRestaurant.Controllers
 
                 TempData["EditItemSucess"] = "Item Edited Successfully";
 
-                return RedirectToAction("Index","Home");
+                return RedirectToAction("Inventory","Manager");
             }
 
-            return RedirectToAction("Index", "Home");
+            TempData["EditItemError"] = "An Error ocurred while trying edit the item";
+
+            return RedirectToAction("Inventory", "Manager");
         }
-
-
-
         #endregion
+
+
+        #region Inventory
+        [HttpGet]
+        public IActionResult Inventory()
+        {
+            List<MenuItem> burgers = _dbContext.MenuItems.Where(m => m.Category == "Burgers").ToList();
+            List<MenuItem> pastas = _dbContext.MenuItems.Where(m => m.Category == "Pasta").ToList();
+            List<MenuItem> desserts = _dbContext.MenuItems.Where(m => m.Category == "Desserts").ToList();
+
+            List<MenuItem> allItems = new List<MenuItem>();
+            allItems.AddRange(burgers);
+            allItems.AddRange(pastas);
+            allItems.AddRange(desserts);
+
+            ViewBag.Items = allItems;
+
+            return View();
+        }
+        #endregion
+
+        //-------------------------------------------------
+        //              Orders Management
+        //--------------------------------------------------
+
+        public IActionResult OrdersManagement()
+        {
+            List<Order> orders = _dbContext.Orders.Include(oi => oi.orderItems).ToList();
+
+            return View(orders);
+        }
     }
 }

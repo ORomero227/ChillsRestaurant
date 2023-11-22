@@ -1,0 +1,104 @@
+﻿@{
+    ViewData["Title"] = "Inventory";
+}
+
+<div class="container-fluid">
+
+    <div class="container d-flex justify-content-between">
+        <h3>All Plates</h3>
+        <div>
+            <a class="btn btn-primary" asp-action="CreateMenuItem">Create New Menu Item</a>
+            <a class="btn btn-primary" asp-action="Index" asp-controller="Home">Return</a>
+        </div>
+    </div>
+    <hr />
+
+    <div class="container-fluid">
+        @{
+            if (TempData["CreateItemSuccess"] != null)
+            {
+                <div class="container alert alert-success d-flex justify-content-between" role="alert">
+                    @TempData["CreateItemSuccess"]
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            if (TempData["EditItemSucess"] != null)
+            {
+                <div class="container alert alert-success d-flex justify-content-between" role="alert">
+                    @TempData["EditItemSucess"]
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            if (TempData["EditItemError"] != null)
+            {
+                <div class="container alert alert-danger d-flex justify-content-between" role="alert">
+                    @TempData["EditItemError"]
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            if (TempData["DeleteItemSuccess"] != null)
+            {
+                <div class="container alert alert-success d-flex justify-content-between" role="alert">
+                    @TempData["DeleteItemSuccess"]
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            if (TempData["DeleteItemError"] != null)
+            {
+                <div class="container alert alert-danger d-flex justify-content-between" role="alert">
+                    @TempData["DeleteItemError"]
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+        }
+    </div>
+    <div class="container-fluid">
+        <div class="table-responsive">
+            <table class="table table-light">
+                <thead>
+                    <tr class="text-center">
+                        <th scope="col">Photo</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.Items)
+                    {
+                        <tr class="text-center">
+                            <td>
+                                <img src="~/images/Comida/@item.Photo" class="img-fluid rounded-circle profilenavbar-img me-1">
+                            </td>
+                            <td>@item.Name</td>
+                            <td>@item.Price</td>
+                            <td>@item.Category</td>
+                            <td>@item.Description</td>
+                            <td>@item.Status</td>
+                            <td>
+                                <a href="@Url.Action("EditMenuItem","Manager", new {itemName = item.Name})" class="btn btn-primary">Edit</a>
+                                <a href="@Url.Action("DeleteItem","Manager", new{itemName = item.Name})" class="btn btn-danger"
+                                   onclick="return confirmDelete()">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        function confirmDelete() {
+            return confirm("Are you sure you want to delete this item?");
+        }
+    </script>
+}

@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Models\ViewModels\Kitchen\" />
     <Folder Include="wwwroot\images\profileAvatars\" />
   </ItemGroup>
 

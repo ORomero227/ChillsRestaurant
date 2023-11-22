@@ -21,9 +21,9 @@ namespace ChillsRestaurant.Controllers
         public IActionResult Index()
         {
             //Se pasan los items disponibles
-            ViewBag.ListOfBurgers = _dbContext.MenuItems.Where(m => m.Category == "Burgers").ToList();
-            ViewBag.ListOfPasta = _dbContext.MenuItems.Where(m => m.Category == "Pasta").ToList();
-            ViewBag.ListOfDesserts = _dbContext.MenuItems.Where(m => m.Category == "Desserts").ToList();
+            ViewBag.ListOfBurgers = _dbContext.MenuItems.Where(m => m.Category == "Burgers" && m.Status == "enable").ToList();
+            ViewBag.ListOfPasta = _dbContext.MenuItems.Where(m => m.Category == "Pasta" && m.Status == "enable").ToList();
+            ViewBag.ListOfDesserts = _dbContext.MenuItems.Where(m => m.Category == "Desserts" && m.Status == "enable").ToList();
 
             return View();
         }

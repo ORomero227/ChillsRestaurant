@@ -25,6 +25,7 @@
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" asp-controller="Home" asp-action="Index">Menu</a></li>
                     <li><a class="dropdown-item" asp-controller="Manager" asp-action="CreateMenuItem">Create Menu Item</a></li>
+                    <li><a class="dropdown-item" asp-controller="Manager" asp-action="Inventory">Inventory</a></li>
                 </ul>
             </li>
         }
@@ -35,10 +36,31 @@
             </li>
         }
 
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="OrderIndex">Order</a>
-        </li>
-       
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Order
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" asp-controller="Order" asp-action="CurrentOrder">Current Order</a></li>
+                    <li><a class="dropdown-item" asp-action="OrdersHistory" asp-controller="Order">Orders History</a></li>
+                </ul>
+            </li>
+            
+        @if (userRole == "Manager" || userRole == "Kitchen" || userRole == "Employee")
+        {
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Kitchen
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" asp-action="KitchenIndex" asp-controller="Kitchen">Availables Orders</a></li>
+                    <li><a class="dropdown-item" asp-action="WorkingOrders" asp-controller="Kitchen">Working Orders</a></li>
+                </ul>
+            </li>
+        }    
+
+            
+
         @if (userRole == "Manager")
         {
             <li class="nav-item dropdown">
@@ -47,6 +69,7 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" asp-controller="Manager" asp-action="AccountsManagement">Accounts Management</a></li>
+                    <li><a class="dropdown-item" asp-controller="Manager" asp-action="OrdersManagement">Orders Management</a></li>
                 </ul>
             </li>
         }

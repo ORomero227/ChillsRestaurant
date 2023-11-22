@@ -7,8 +7,10 @@ namespace ChillsRestaurant.Models.AuthenticationModels
         [Required]
         public string UserName { get; set; }
 
-        [Required]
-        public string Password { get; set; }
+
+        public string? Password { get; set; }
+
+        public string? PinNumber {get; set; }
 
         public string ReturnUrl { get; set; }
     }

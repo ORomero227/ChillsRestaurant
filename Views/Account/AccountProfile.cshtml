@@ -9,7 +9,7 @@
     <div class="container d-flex justify-content-between">
         <h3>Account Information</h3>
         <div>
-            @if (!User.IsInRole("Employee"))
+            @if (User.IsInRole("Client"))
             {
                 <a class="btn btn-primary" href="@Url.Action("EditAccount","Account", new{ username = Model.UserName})">Edit</a>
             }
@@ -70,6 +70,13 @@
                                     <label asp-for="Email">Email</label>
                                     <input asp-for="Email" class="form-control" disabled readonly />
                                 </div>
+                                @if (User.IsInRole("Employee") || User.IsInRole("Manager") || User.IsInRole("Kitchen"))
+                                {
+                                    <div class="form-group mb-3">
+                                        <label asp-for="PinNumber">Pin Number</label>
+                                        <input asp-for="PinNumber" class="form-control" disabled readonly />
+                                    </div>
+                                }
                             </div>
                             <div class="form-group mb-3">
                                 <label asp-for="Address">Address <span class="form-text">(Optional)</span></label>

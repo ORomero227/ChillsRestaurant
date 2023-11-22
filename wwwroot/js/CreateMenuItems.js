@@ -47,8 +47,6 @@ function resetAll() {
     itemImage.src = "/images/Comida/default-food.png"
 }
 
-
-
 // Obtén el elemento del input
 var numberInput = document.getElementById('priceInput');
 

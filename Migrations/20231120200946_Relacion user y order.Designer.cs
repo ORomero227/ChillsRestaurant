@@ -4,6 +4,7 @@ using ChillsRestaurant.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChillsRestaurant.Migrations
 {
     [DbContext(typeof(ChillsRestaurantDBContext))]
-    partial class ChillsRestaurantDBContextModelSnapshot : ModelSnapshot
+    [Migration("20231120200946_Relacion user y order")]
+    partial class Relacionuseryorder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -148,7 +151,7 @@ namespace ChillsRestaurant.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("378c7a5f-1601-473e-9107-f0cbcaeaa2b3"),
+                            Id = new Guid("ea613d55-197e-4594-b3b3-1f2250f2b3d3"),
                             Category = "Burgers",
                             Description = "Delicious burger with meat, lettuce, tomato and cheese.",
                             Name = "Classic Burger",
@@ -158,7 +161,7 @@ namespace ChillsRestaurant.Migrations
                         },
                         new
                         {
-                            Id = new Guid("2fed4630-6f79-4d39-8b2e-ea1ed4a97021"),
+                            Id = new Guid("d18abacc-e94c-4932-84e6-9d121d19571f"),
                             Category = "Burgers",
                             Description = "Delicious vegan burger.",
                             Name = "Veggie Burger",
@@ -168,7 +171,7 @@ namespace ChillsRestaurant.Migrations
                         },
                         new
                         {
-                            Id = new Guid("70241cd3-1a21-48c8-8332-85ae64ac1b18"),
+                            Id = new Guid("e4e067bc-5a5c-4b6a-9177-92fea95aa768"),
                             Category = "Burgers",
                             Description = "Delicious burger with bbq sauce and bacon.",
                             Name = "BBQ Burger",
@@ -178,7 +181,7 @@ namespace ChillsRestaurant.Migrations
                         },
                         new
                         {
-                            Id = new Guid("9e921cda-1d9a-436e-a007-afcfeae0fe42"),
+                            Id = new Guid("0de945e8-97d4-4cf2-93f9-814fdce954f8"),
                             Category = "Pasta",
                             Description = "Delicious Spaghetti with red sauce.",
                             Name = "Spaghetti",
@@ -188,7 +191,7 @@ namespace ChillsRestaurant.Migrations
                         },
                         new
                         {
-                            Id = new Guid("60895f92-d4ff-4fc3-9f82-3bc52240be6f"),
+                            Id = new Guid("c666021a-668c-4ec3-916a-4ab50c170ee8"),
                             Category = "Pasta",
                             Description = "Delicious Alfredo Pasta with white sauce.",
                             Name = "Alfredo Pasta",
@@ -198,7 +201,7 @@ namespace ChillsRestaurant.Migrations
                         },
                         new
                         {
-                            Id = new Guid("5afda841-9152-461b-9fba-7384d5b68183"),
+                            Id = new Guid("dd1fee6e-d0a0-4923-a7e4-c0cb3678d174"),
                             Category = "Pasta",
                             Description = "Delicious Lasagna with cream cheese, cheese and red sauce.",
                             Name = "Lasagna",
@@ -208,7 +211,7 @@ namespace ChillsRestaurant.Migrations
                         },
                         new
                         {
-                            Id = new Guid("3d298713-520f-405f-9ddc-c02e8ac6a742"),
+                            Id = new Guid("36050c6b-2299-499c-94a8-8ff256c05b5f"),
                             Category = "Desserts",
                             Description = "Delicious cheesecake with cream cheese, fresh cheese",
                             Name = "Cheescake",
@@ -218,7 +221,7 @@ namespace ChillsRestaurant.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c9710902-deeb-4944-becf-4541b0737e58"),
+                            Id = new Guid("177ec6c6-ff32-46aa-a675-467012ef2a72"),
                             Category = "Desserts",
                             Description = "Delicious chocolate cake",
                             Name = "Chocolate Cake",
@@ -233,10 +236,6 @@ namespace ChillsRestaurant.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("EmployeeName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GeneralStatus")
                         .IsRequired()

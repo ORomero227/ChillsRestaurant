@@ -16,5 +16,7 @@ namespace ChillsRestaurant.Models
         public string Category {get; set; }
 
         public string Photo { get; set; }
+
+        public string Status {get;set; }
     }
 }

@@ -20,16 +20,18 @@ namespace ChillsRestaurant.Models
                     Price = 5.99m,
                     Category = "Burgers",
                     Photo = "Hambuerger.png",
-                    Description= "Delicious burger with meat, lettuce, tomato and cheese."
+                    Description = "Delicious burger with meat, lettuce, tomato and cheese.",
+                    Status = "enable"
                 },
-                new MenuItem 
+                new MenuItem
                 {
                     Id = Guid.NewGuid(),
                     Name = "Veggie Burger",
                     Price = 8.99m,
                     Category = "Burgers",
                     Photo = "Hambuegervagena.png",
-                    Description = "Delicious vegan burger."
+                    Description = "Delicious vegan burger.",
+                    Status = "enable"
                 },
                 new MenuItem
                 {
@@ -38,7 +40,8 @@ namespace ChillsRestaurant.Models
                     Price = 9.99m,
                     Category = "Burgers",
                     Photo = "bbqbuerger.png",
-                    Description = "Delicious burger with bbq sauce and bacon."
+                    Description = "Delicious burger with bbq sauce and bacon.",
+                    Status = "enable"
                 },
                 new MenuItem
                 {
@@ -47,7 +50,8 @@ namespace ChillsRestaurant.Models
                     Price = 12.99m,
                     Category = "Pasta",
                     Photo = "spagetti.png",
-                    Description = "Delicious Spaghetti with red sauce."
+                    Description = "Delicious Spaghetti with red sauce.",
+                    Status = "enable"
                 },
                 new MenuItem
                 {
@@ -56,7 +60,8 @@ namespace ChillsRestaurant.Models
                     Price = 14.99m,
                     Category = "Pasta",
                     Photo = "alfredo.png",
-                    Description = "Delicious Alfredo Pasta with white sauce."
+                    Description = "Delicious Alfredo Pasta with white sauce.",
+                    Status = "enable"
                 },
                 new MenuItem
                 {
@@ -66,6 +71,7 @@ namespace ChillsRestaurant.Models
                     Category = "Pasta",
                     Photo = "lasagna.png",
                     Description = "Delicious Lasagna with cream cheese, cheese and red sauce.",
+                    Status = "enable"
                 },
                 new MenuItem
                 {
@@ -75,6 +81,7 @@ namespace ChillsRestaurant.Models
                     Category = "Desserts",
                     Photo = "cheescake.png",
                     Description = "Delicious cheesecake with cream cheese, fresh cheese",
+                    Status = "enable"
                 },
                 new MenuItem
                 {
@@ -83,7 +90,8 @@ namespace ChillsRestaurant.Models
                     Price = 5.99m,
                     Category = "Desserts",
                     Photo = "chocolate.png",
-                    Description = "Delicious chocolate cake"
+                    Description = "Delicious chocolate cake",
+                    Status = "enable"
                 }
             );
 
@@ -93,5 +101,8 @@ namespace ChillsRestaurant.Models
 
         public DbSet<MenuItem> MenuItems { get; set; }
 
+        public DbSet<Order> Orders { get; set; }
+
+        public DbSet<OrderItem> OrderItems { get; set; }
     }
 }

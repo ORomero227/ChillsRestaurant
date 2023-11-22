@@ -1,0 +1,64 @@
+﻿@using ChillsRestaurant.Models
+@model List<Order>
+
+@{
+    ViewData["Title"] = "Kitchen Management";
+}
+
+
+<div class="container-fluid">
+
+    <div class="container d-flex justify-content-between">
+        <h3>Accounts</h3>
+        <div>
+            <a class="btn btn-primary" asp-action="Index" asp-controller="Home">Home</a>
+        </div>
+    </div>
+    <hr />
+
+    <div class="container-fluid">
+        @if(Model.Count == 0)
+        {
+            <div class="text-center mt-5">
+                <h3>No orders created</h3>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-light">
+                    <thead>
+                        <tr class="text-center">
+                            <th scope="col">Order Id</th>
+                            <th scope="col">Owner</th>
+                            <th scope="col">Kitchen Status</th>
+                            <th scope="col">General Status</th>
+                            <th scope="col">Order Items Qty</th>
+                            <th scope="col">Order Total</th>
+                            <th scope="col">Who worked it</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var (order, index) in Model.Select((value, i) => (value, i)))
+                        {
+                            <tr class="text-center">
+                                <td>@order.Id</td>
+                                <td>@order.Owner</td>
+                                <td>@order.KitchenStatus</td>
+                                <td>@order.GeneralStatus</td>
+                                <td>
+                                    @{
+                                        int totalItemsQty = order.orderItems.Sum(or => or.Quantity);
+                                        @totalItemsQty
+                                    }
+                                </td>
+                                <td>@order.orderTotal</td>
+                                <td>@order.EmployeeName</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

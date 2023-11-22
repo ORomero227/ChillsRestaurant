@@ -5,6 +5,10 @@
     Layout = "~/Views/Shared/_AuthenticationLayout.cshtml";
 }
 
+@section Scripts{
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+}
+
 <div class="container-fluid maincontainer">
 
     <div class="container loginWelcomeTitleContainer">
@@ -49,8 +53,6 @@
                 </div>
             }
 
-           
-
             <form id="Account" method="post">
                 <div class="mb-3">
                     <label asp-for="@Model.UserName" class="form-label">Username</label>
@@ -75,9 +77,63 @@
                     <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary mb-3">Log in</button>
                 </div>
                 <div>
+                    <a href="#" id="openPinModal">Login with PIN</a>
+                </div>
+                <div>
                     <a href="@Url.Action("SignUp", "Account")">Don't have an account? Create one here!</a>
                 </div>
             </form>
         </section>
     </div>
 </div>
+
+<div class="modal fade" id="pinModal" tabindex="-1" aria-labelledby="pinModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pinModalLabel">Enter PIN</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="Account" asp-action="LoginWithPin" method="post">
+            <div class="modal-body">
+                <!-- Contenido del formulario para el PIN -->
+                    
+                    <label asp-for="@Model.UserName" class="form-label">Username</label>
+                    <input asp-for="@Model.UserName"
+                           class="form-control"
+                           type="text"
+                           autofocus
+                           autocomplete="off"
+                           aria-required="true"
+                           placeholder="username" />
+
+                    <label asp-for="@Model.PinNumber" class="form-label">PIN Number</label>
+                    <input asp-for="@Model.PinNumber"
+                           class="form-control"
+                           type="text"
+                           autocomplete="off"
+                           aria-required="true"
+                           placeholder="PIN number" />
+
+                    <input type="hidden" name="ReturnUrl" value="@Model.ReturnUrl" />
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Script para abrir el modal -->
+<<script>
+     $(document).ready(function () {
+         $('#openPinModal').on('click', function (e) {
+             e.preventDefault();
+             var returnUrl = $('#Account input[name="ReturnUrl"]').val();
+             $('#pinModal input[name="ReturnUrl"]').val(returnUrl);
+             $('#pinModal').modal('show');
+         });
+     });
+</script>

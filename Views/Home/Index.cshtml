@@ -5,47 +5,26 @@
 <div class="container-fluid">
 
     <div class="container-fluid">
-        @{
-            if (TempData["CreateItemSuccess"] != null)
-            {
-                <div class="container alert alert-success d-flex justify-content-between" role="alert">
-                    @TempData["CreateItemSuccess"]
-                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            }
-
-            if (TempData["DeleteItemSuccess"] != null)
-            {
-                <div class="container alert alert-success d-flex justify-content-between" role="alert">
-                    @TempData["DeleteItemSuccess"]
-                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            }
-
-            if (TempData["EditItemSucess"] != null)
-            {
-                <div class="container alert alert-success d-flex justify-content-between" role="alert">
-                    @TempData["EditItemSucess"]
-                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            }
-            
-            if (TempData["ErrorAddToCart"] != null)
-            {
-                <div class="container alert alert-danger d-flex justify-content-between" role="alert">
-                    @TempData["ErrorAddToCart"]
-                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            }
-
-            if (TempData["SuccessAddToCart"] != null)
-            {
-                <div class="container alert alert-success d-flex justify-content-between" role="alert">
-                    @TempData["SuccessAddToCart"]
-                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            }
+    @{
+        if (TempData["ErrorAddToCart"] != null)
+        {
+            <div class="container alert alert-danger d-flex justify-content-between" role="alert">
+                @TempData["ErrorAddToCart"]
+                <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         }
+
+        if (TempData["SuccessAddToCart"] != null)
+        {
+            <div class="container alert alert-success d-flex justify-content-between" role="alert">
+                 <div>
+                    @TempData["SuccessAddToCart"]
+                    <a asp-area="" asp-controller="Order" asp-action="CurrentOrder">View My Order</a>
+                 </div>
+                <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+    }
     </div>
 
     <section class="menu-section">
@@ -68,26 +47,9 @@
                                 <form method="post" asp-action="AddToOrder" asp-controller="Order">
                                     <input name="itemName" value="@burger.Name" hidden>
                                     <button class="btn btn-success" type="submit" data-bs-toggle="tooltip" title="Add To Order">
-                                        <i class="fa-solid fa-cart-plus"></i>
+                                        <i class="fa-solid fa-cart-plus me-3"></i>Add To Order
                                     </button>
                                 </form>
-
-                                @{
-                                    if (User.IsInRole("Manager"))
-                                    {
-                                        <a href="@Url.Action("DeleteItem","Manager", new{itemName = burger.Name})" 
-                                           class="btn btn-danger"
-                                           onclick="return confirmDelete()"
-                                           data-bs-toggle="tooltip" title="Delete">
-                                           <i class="fa-solid fa-trash"></i>
-                                        </a>
-                                        <a href="@Url.Action("EditMenuItem","Manager", new{itemName = burger.Name})"
-                                           class="btn btn-primary"
-                                           data-bs-toggle="tooltip" title="Edit">
-                                            <i class="fa-solid fa-pencil"></i>
-                                        </a>
-                                    }
-                                }
                             </div>
                         </div>
                     </div>
@@ -116,26 +78,9 @@
                                 <form method="post" asp-action="AddToOrder" asp-controller="Order">
                                     <input name="itemName" value="@pasta.Name" hidden>
                                     <button class="btn btn-success" type="submit" data-bs-toggle="tooltip" title="Add To Order">
-                                        <i class="fa-solid fa-cart-plus"></i>
+                                        <i class="fa-solid fa-cart-plus me-3"></i>Add To Order
                                     </button>
                                 </form>
-                                
-                                @{
-                                    if (User.IsInRole("Manager"))
-                                    {
-                                        <a href="@Url.Action("DeleteItem","Manager", new{itemName = pasta.Name})"
-                                           class="btn btn-danger"
-                                           onclick="return confirmDelete()"
-                                           data-bs-toggle="tooltip" title="Delete">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </a>
-                                        <a href="@Url.Action("EditMenuItem","Manager", new{itemName = pasta.Name})"
-                                           class="btn btn-primary"
-                                           data-bs-toggle="tooltip" title="Edit">
-                                            <i class="fa-solid fa-pencil"></i>
-                                        </a>
-                                    }
-                                }
                             </div>
                         </div>
                     </div>
@@ -164,26 +109,9 @@
                                 <form method="post" asp-action="AddToOrder" asp-controller="Order">
                                     <input name="itemName" value="@dessert.Name" hidden>
                                     <button class="btn btn-success" type="submit" data-bs-toggle="tooltip" title="Add To Order">
-                                        <i class="fa-solid fa-cart-plus"></i>
+                                        <i class="fa-solid fa-cart-plus me-3"></i>Add To Order
                                     </button>
                                 </form>
-
-                                @{
-                                    if (User.IsInRole("Manager"))
-                                    {
-                                        <a href="@Url.Action("DeleteItem","Manager", new{itemName = dessert.Name})"
-                                           class="btn btn-danger"
-                                           onclick="return confirmDelete()"
-                                           data-bs-toggle="tooltip" title="Delete">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </a>
-                                        <a href="@Url.Action("EditMenuItem","Manager", new{itemName = dessert.Name})"
-                                           class="btn btn-primary"
-                                           data-bs-toggle="tooltip" title="Edit">
-                                            <i class="fa-solid fa-pencil"></i>
-                                        </a>
-                                    }
-                                }
                             </div>
                         </div>
                     </div>
@@ -192,12 +120,3 @@
         </div>
     </section>
 </div>
-
-
-@section Scripts{
-    <script>
-        function confirmDelete() {
-            return confirm("Are you sure you want to delete this item?");
-        }
-    </script>
-}

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChillsRestaurant", "ChillsRestaurant.csproj", "{E1A1D4E2-621B-4F84-83D2-F1BF55391B5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChillsRestaurant", "ChillsRestaurant.csproj", "{E1A1D4E2-621B-4F84-83D2-F1BF55391B5E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{01B0128B-BE24-4023-9123-60E462DC66FD}"
 	ProjectSection(SolutionItems) = preProject

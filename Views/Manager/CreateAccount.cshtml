@@ -145,7 +145,11 @@
                     </div>
                     <button type="submit" class="mt-4 mb-3 btn btn-primary">Create Account</button>
                     <button type="reset" class="btn btn-warning mb-3" id="btnClear" onclick="resetAll()">Clear</button>
-                    <a class="btn btn-primary mb-3" asp-action="AccountsManagement" asp-controller="Manager">Return</a>
+                    @if(User.IsInRole("Manager")){
+                        <a class="btn btn-primary mb-3" asp-action="AccountsManagement" asp-controller="Manager">Return</a>
+                    }else if(User.IsInRole("Employee")){
+                        <a class="btn btn-primary mb-3" asp-action="Index" asp-controller="Home">Return</a>
+                    }
                 </div>
             </form>
         </div>

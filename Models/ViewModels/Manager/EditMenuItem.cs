@@ -21,5 +21,8 @@ namespace ChillsRestaurant.Models.ViewModels.Manager
 
         [Required]
         public string Photo { get; set; }
+
+        [Required]
+        public string Status {get; set; }
     }
 }

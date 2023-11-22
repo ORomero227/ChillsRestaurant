@@ -15,6 +15,10 @@ namespace ChillsRestaurant.Models
 
         public string Role {get; set; }
 
+        public string PinNumber { get; set; }
+
         public string AccountStatus {get; set; } 
+
+        public List<Order> Orders  { get; set; }
     }
 }

@@ -1,0 +1,211 @@
+﻿@using ChillsRestaurant.Models;
+@model OrdersHistoryViewModel
+
+
+@{
+    ViewData["Title"] = "Orders History";
+}
+
+<div class="container-fluid">
+    
+    <section id="inProgress">
+        <h3>In Progress / Saved</h3>
+        @if(Model.inProgressOrder.Count == 0)
+        {
+            <p>No have orders in progress</p>
+        }
+        else
+        {
+            <div class="accordion" id="accordionInProgress">
+            @foreach (var (item, index) in Model.inProgressOrder.Select((value, i) => (value, i)))
+            {
+                var isFirstItem = index == 0;
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button bg-primary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInProgress@(item.Id)" aria-expanded="@isFirstItem.ToString().ToLower()" aria-controls="collapseInProgress@(item.Id)">
+                            Order Total: @item.orderTotal.ToString("C")
+                        </button>
+                    </h2>
+                    <div id="collapseInProgress@(item.Id)" class="accordion-collapse collapse @(isFirstItem ? "show" : "")" data-bs-parent="#accordionInProgress">
+                        <div class="accordion-body">
+                            <ul class="list-group list-group-flush">
+                                @foreach (var orderItem in item.orderItems)
+                                {
+                                    <li class="list-group-item list-group-flush">
+                                        <div class="row">
+                                            <div class="col-12 col-sm-6">
+                                                <img src="~/images/Comida/@orderItem.Photo" alt="@orderItem.Name" class="img-fluid menuItemPhoto" />
+                                            </div>
+                                            <div class="col-12 col-sm-6">
+                                                <p>@orderItem.Name</p>
+                                                <p>Qty: @orderItem.Quantity</p>
+                                                <p>Price Per Item: @orderItem.Amount.ToString("C")</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                }
+                                <li class="list-group-item list-group-flush">
+                                    <div class="row">
+                                        <div class="col-12 col-sm-6">
+                                        </div>
+                                        <div class="col-12 col-sm-6">
+                                            <a class="btn btn-success" href="@Url.Action("PaySelectedOrder","Order", new{orderId = item.Id})">Pay Order</a>
+                                            <a class="btn btn-danger" href="@Url.Action("CancelSelectedOrder","Order",new{orderId= item.Id})" onclick="return confirmCancelation()">Cancel Order</a>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        } 
+    </section>
+
+
+    <section id="paid">
+        <h3>Paid</h3>
+        @if (Model.paidOrders.Count == 0)
+        {
+            <p>No have paid orders</p>
+        }
+        else
+        {
+            <div class="accordion" id="accordionPaid">
+                @foreach (var (item, index) in Model.paidOrders.Select((value, i) => (value, i)))
+                {
+                    var isFirstItem = index == 0;
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button bg-success text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePaid@(item.Id)" aria-expanded="@isFirstItem.ToString().ToLower()" aria-controls="collapsePaid@(item.Id)">
+                                Order Total: @item.orderTotal.ToString("C") | Kitchen Status: @item.KitchenStatus
+                            </button>
+                        </h2>
+                        <div id="collapsePaid@(item.Id)" class="accordion-collapse collapse @(isFirstItem ? "show" : "")" data-bs-parent="#accordionPaid">
+                            <div class="accordion-body">
+                                <ul class="list-group list-group-flush">
+                                    @foreach (var orderItem in item.orderItems)
+                                    {
+                                        <li class="list-group-item list-group-flush">
+                                            <div class="row">
+                                                <div class="col-12 col-sm-6">
+                                                    <img src="~/images/Comida/@orderItem.Photo" alt="@orderItem.Name" class="img-fluid menuItemPhoto" />
+                                                </div>
+                                                <div class="col-12 col-sm-6">
+                                                    <p>@orderItem.Name</p>
+                                                    <p>Qty: @orderItem.Quantity</p>
+                                                    <p>Price Per Item: @orderItem.Amount.ToString("C")</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </section>
+
+    <section id="cancel">
+        <h3>Canceled</h3>
+        @if (Model.cancelOrders.Count == 0)
+        {
+            <p>No have cancel orders</p>
+        }
+        else
+        {
+            <div class="accordion" id="accordionCancel">
+                @foreach (var (item, index) in Model.cancelOrders.Select((value, i) => (value, i)))
+                {
+                    var isFirstItem = index == 0;
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button bg-danger text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCancel@(item.Id)" aria-expanded="false" aria-controls="collapseCancel@(item.Id)">
+                                Order Total: @item.orderTotal.ToString("C")
+                            </button>
+                        </h2>
+                        <div id="collapseCancel@(item.Id)" class="accordion-collapse collapse" data-bs-parent="#accordionCancel">
+                            <div class="accordion-body">
+                                <ul class="list-group list-group-flush">
+                                    @foreach (var orderItem in item.orderItems)
+                                    {
+                                        <li class="list-group-item list-group-flush">
+                                            <div class="row">
+                                                <div class="col-12 col-sm-6">
+                                                    <img src="~/images/Comida/@orderItem.Photo" alt="@orderItem.Name" class="img-fluid menuItemPhoto" />
+                                                </div>
+                                                <div class="col-12 col-sm-6">
+                                                    <p>@orderItem.Name</p>
+                                                    <p>Qty: @orderItem.Quantity</p>
+                                                    <p>Price Per Item: @orderItem.Amount.ToString("C")</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </section>
+
+    <section id="oldOrders">
+        <h3>Old Orders</h3>
+        @if (Model.oldOrders.Count == 0)
+        {
+            <p>No have older orders</p>
+        }
+        else
+        {
+            <div class="accordion" id="accordionOld">
+                @foreach (var (item, index) in Model.oldOrders.Select((value, i) => (value, i)))
+                {
+                    var isFirstItem = index == 0;
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOld@(item.Id)" aria-expanded="false" aria-controls="collapseOld@(item.Id)">
+                                Order Total: @item.orderTotal.ToString("C")
+                            </button>
+                        </h2>
+                        <div id="collapseOld@(item.Id)" class="accordion-collapse collapse" data-bs-parent="#accordionOld">
+                            <div class="accordion-body">
+                                <ul class="list-group list-group-flush">
+                                    @foreach (var orderItem in item.orderItems)
+                                    {
+                                        <li class="list-group-item list-group-flush">
+                                            <div class="row">
+                                                <div class="col-12 col-sm-6">
+                                                    <img src="~/images/Comida/@orderItem.Photo" alt="@orderItem.Name" class="img-fluid menuItemPhoto" />
+                                                </div>
+                                                <div class="col-12 col-sm-6">
+                                                    <p>@orderItem.Name</p>
+                                                    <p>Qty: @orderItem.Quantity</p>
+                                                    <p>Price Per Item: @orderItem.Amount.ToString("C")</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </section>
+
+</div>
+
+
+@section Scripts{
+    <script>
+        function confirmCancelation() {
+            return confirm("Are you sure you want to cancel this order?");
+        }
+    </script>
+}

@@ -25,6 +25,7 @@ namespace ChillsRestaurant.Controllers
         {
             List<string> profileAvatars = new List<string>
             {
+                "avatar-default.png",
                 "avatar-men1.png",
                 "avatar-men2.png",
                 "avatar-men3.png",
@@ -114,7 +115,7 @@ namespace ChillsRestaurant.Controllers
             await _signInManager.SignOutAsync();
 
             //El Api intenta autenticar el usuario usando el username y el password
-            var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, true);
+            var result = await _signInManager.PasswordSignInAsync(user, model.Password ?? "", false, true);
 
             if (result.Succeeded)
             {
@@ -133,6 +134,61 @@ namespace ChillsRestaurant.Controllers
                 return View(model);
             }
         }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> LoginWithPin(Login model, string returnUrl)
+        {
+            model.ReturnUrl = returnUrl;
+
+            if (!ModelState.IsValid)
+            {
+                return View("~/Views/Account/Login.cshtml", model);
+            }
+
+            var user = await _userManager.FindByNameAsync(model.UserName);
+
+            if (user == null)
+            {
+                ModelState.AddModelError(nameof(model.UserName), "Login Failed: User not found");
+                model.ReturnUrl = model.ReturnUrl ?? "/"; // Establecer ReturnUrl si es nulo
+                return View("~/Views/Account/Login.cshtml", model);
+            }
+
+            if (!user.EmailConfirmed)
+            {
+                ModelState.AddModelError(nameof(model.UserName), "Login Failed: Your email is not confirmed.");
+                TempData["UserEmail"] = user.Email;
+                return View("~/Views/Account/Login.cshtml", model);
+            }
+
+            if (user.AccountStatus != "enable")
+            {
+                ModelState.AddModelError(string.Empty, "Your account has been disabled");
+                model.ReturnUrl = model.ReturnUrl ?? "/"; // Establecer ReturnUrl si es nulo
+                return View("~/Views/Account/Login.cshtml", model);
+            }
+
+            if (user.PinNumber != model.PinNumber)
+            {
+                ModelState.AddModelError(nameof(model.PinNumber), "Login Failed: Invalid PIN Number");
+                model.ReturnUrl = model.ReturnUrl ?? "/"; // Establecer ReturnUrl si es nulo
+                return View("~/Views/Account/Login.cshtml", model);
+            }
+
+            await _signInManager.SignOutAsync();
+
+            // Aquí puedes agregar lógica personalizada si es necesario.
+            // Por ejemplo, puedes realizar acciones adicionales antes de iniciar sesión.
+
+            // Luego, puedes iniciar sesión manualmente sin utilizar SignInManager
+            await _signInManager.SignInAsync(user, isPersistent: false);
+
+            return Redirect(model.ReturnUrl ?? "/");
+        }
+
+
 
         /// <summary>
         /// Metodo que solo se encarga de cerrar la sesion
@@ -201,6 +257,7 @@ namespace ChillsRestaurant.Controllers
                 Photo = model.Photo,
                 Role = "Client",
                 AccountStatus = "disable",
+                PinNumber = "N/A",
                 EmailConfirmed = false,
                 PhoneNumberConfirmed = false,
                 TwoFactorEnabled = false

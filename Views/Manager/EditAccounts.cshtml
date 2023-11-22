@@ -74,6 +74,21 @@
                                         }
                                     </select>
                                 </div>
+                                @if(Model.NewRole != "Client")
+                                {
+                                    <div class="form-group mb-3">
+                                        <label asp-for="PinNumber">Pin Number</label>
+                                        <input asp-for="PinNumber"
+                                               type="text"
+                                               class="form-control"
+                                               id="pinNumberId"
+                                               autocomplete="on" />
+                                    </div>
+                                }
+                                else
+                                {
+                                    <input type="hidden" asp-for="PinNumber">
+                                }
                             </div>
                             <div class="col-md-6 mt-2">
                                 <div class="form-group mb-3">

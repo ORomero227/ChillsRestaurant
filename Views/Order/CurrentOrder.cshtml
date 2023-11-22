@@ -1,0 +1,152 @@
+﻿@using ChillsRestaurant.Models.ViewModels.Order;
+@model CurrentOrderViewModel;
+
+@{
+    ViewData["Title"] = "Order";
+}
+
+<div class="container-fluid">
+
+    <div class="container-fluid">
+        @{
+            if (TempData["ErrorInPaymentPhase"] != null)
+            {
+                <div class="container alert alert-danger d-flex justify-content-between" role="alert">
+                    @TempData["ErrorInPaymentPhase"]
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            if (TempData["EditItem"] != null)
+            {
+                <div class="container alert alert-danger d-flex justify-content-between" role="alert">
+                    @TempData["EditItem"]
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            if (TempData["RemoveItem"] != null)
+            {
+                <div class="container alert alert-danger d-flex justify-content-between" role="alert">
+                    @TempData["RemoveItem"]
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+            
+            if (TempData["RemoveItemSuccess"] != null)
+            {
+                <div class="container alert alert-success d-flex justify-content-between" role="alert">
+                    @TempData["RemoveItemSuccess"]
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+            
+            if (TempData["EditItemSuccess"] != null)
+            {
+                <div class="container alert alert-success d-flex justify-content-between" role="alert">
+                    @TempData["EditItemSuccess"]
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+        }
+    </div>
+
+    <div class="d-flex justify-content-between">
+        <h3>Current Order</h3>
+        <div>
+            <a asp-action="Index" asp-controller="Home" class="btn btn-primary">Return</a>
+        </div>
+    </div>
+
+    <hr />
+
+    @if (Model.itemsInOrder.Count == 0)
+    {
+        <h3>Order is empty</h3>
+    }
+    else
+    {
+        <div class="container-fluid">
+            <div class="">
+                <table class="table table-dark  table-striped">
+                    <thead>
+                        <tr>
+                            <th>Photo</th>
+                            <th>Name</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Amount</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(var orderItem in Model.itemsInOrder)
+                        {
+                            <tr>
+                                <td><img src="~/images/Comida/@orderItem.Photo" alt="@orderItem.Name" class="img-fluid menuItemPhoto" /></td>
+                                <td><p>@orderItem.Name</p></td>
+                                <td><p>@orderItem.Quantity</p></td>
+                                <td><p>@orderItem.Price</p></td>
+                                <td><p>@orderItem.Amount</p></td>
+                                <td>
+                                    <button 
+                                        class="btn btn-primary" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#editModal" 
+                                        data-item-name="@orderItem.Name"
+                                        data-quantity="@orderItem.Quantity"
+                                        data-item-img="@orderItem.Photo"
+                                        onclick="setFieldsValue(this)">Edit</button>
+                                    <a href="@Url.Action("RemoveItemFromList","Order", new{itemName = orderItem.Name})" class="btn btn-danger"
+                                       onclick="return confirmDelete()">Remove</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5"></td>
+                            <td>
+                                <a class="btn btn-success" href="@Url.Action("PayOrder","Order",new{total = Model.Total})">Pay @Model.Total.ToString("C")</a>
+                                <a class="btn btn-primary" href="@Url.Action("SaveOrder","Order",new{total = Model.Total})">Save Order</a>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Item Qty</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <img class="img-fluid menuItemPhoto" id="itemPhoto"/>
+                </div>
+                <!-- Formulario de edición -->
+                <form id="editForm" asp-action="EditOrder" asp-controller="Order">
+                    <div class="mb-3">
+                        <label for="itemName" class="form-label">Item Name</label>
+                        <input type="text" class="form-control" name="itemName" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="quantity" class="form-label">Quantity</label>
+                        <input type="number" class="form-control" name="quantity" id="numberInput" min="0" step="1">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="~/js/Order.js"></script>
+}

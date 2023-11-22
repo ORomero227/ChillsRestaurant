@@ -27,6 +27,7 @@ namespace ChillsRestaurant.Models.EditModels
         [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "Email is not valid")]
         public string Email { get; set; }
 
+        public string? PinNumber {get; set;} 
 
         public string? CurrentPassword {get; set; }
         public string? NewPassword { get; set; }

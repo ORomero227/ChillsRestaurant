@@ -1,0 +1,63 @@
+﻿@using ChillsRestaurant.Models;
+@model KitchenViewModel;
+
+@{
+    ViewData["Title"] = "Kitchen";
+}
+
+
+<div class="container-fluid">
+    @if (Model.paidOrders.Count == 0)
+    {
+        <div class="text-center mt-5">
+            <h3>No orders available</h3>
+        </div>
+        
+    }
+    else
+    {
+        <div class="accordion" id="accordionPaid">
+            @foreach (var (item, index) in Model.paidOrders.Select((value, i) => (value, i)))
+            {
+                var isFirstItem = index == 0;
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button bg-success text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePaid@(item.Id)" aria-expanded="@isFirstItem.ToString().ToLower()" aria-controls="collapsePaid@(item.Id)">
+                            Order Total: @item.orderTotal.ToString("C")
+                        </button>
+                    </h2>
+                    <div id="collapsePaid@(item.Id)" class="accordion-collapse collapse @(isFirstItem ? "show" : "")" data-bs-parent="#accordionPaid">
+                        <div class="accordion-body">
+                            <ul class="list-group list-group-flush">
+                                @foreach (var orderItem in item.orderItems)
+                                {
+                                    <li class="list-group-item list-group-flush">
+                                        <div class="row">
+                                            <div class="col-12 col-sm-6">
+                                                <img src="~/images/Comida/@orderItem.Photo" alt="@orderItem.Name" class="img-fluid menuItemPhoto" />
+                                            </div>
+                                            <div class="col-12 col-sm-6">
+                                                <p>@orderItem.Name</p>
+                                                <p>Qty: @orderItem.Quantity</p>
+                                                <p>Price Per Item: @orderItem.Amount.ToString("C")</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                }
+                                <li class="list-group-item list-group-flush">
+                                    <div class="row">
+                                        <div class="col-12 col-sm-6">
+                                        </div>
+                                        <div class="col-12 col-sm-6">
+                                            <a class="btn btn-success" href="@Url.Action("ClaimOwnership","Kitchen", new{orderId = item.Id})">Claim OwnerShip</a>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

@@ -20,7 +20,7 @@ namespace ChillsRestaurant.Services
             {
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-                var roles = new[] { "Manager", "Employee", "Client" };
+                var roles = new[] { "Manager", "Employee", "Client", "Kitchen" };
 
                 foreach (var role in roles)
                 {
@@ -51,6 +51,7 @@ namespace ChillsRestaurant.Services
                         Photo = "avatar-default.png",
                         Role = "Manager",
                         AccountStatus = "enable",
+                        PinNumber = "0000",
                         EmailConfirmed = true,
                         PhoneNumberConfirmed = true,
                         TwoFactorEnabled = false
