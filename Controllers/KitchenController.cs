@@ -35,13 +35,14 @@ namespace ChillsRestaurant.Controllers
         {
             var user = await userManager.GetUserAsync(httpContextAccessor.HttpContext.User);
 
-            if (user != null)
+            if (user == null)
             {
-                List<Order> workinOrders = dbContext.Orders.Include(oi => oi.orderItems).Where(u => u.User.Id == user.Id && u.Owner == "Staff").ToList();
-                return View(workinOrders);
+                return RedirectToAction("KitchenIndex");
             }
 
-            return View();
+            List<Order> workinOrders = dbContext.Orders.Include(oi => oi.orderItems).Where(un => un.EmployeeName == user.Name && un.GeneralStatus != "Closed").ToList();
+
+            return View(workinOrders);
         }
 
         public async Task<IActionResult> ClaimOwnership(Guid orderId)
@@ -62,6 +63,7 @@ namespace ChillsRestaurant.Controllers
 
             orderExists.KitchenStatus = "In-Process";
             orderExists.Owner = "Staff";
+            orderExists.EmployeeName = user.Name;
 
             if (user != null)
             {
