@@ -24,3 +24,29 @@ This is a collaborative project to create an attractive and dynamic website for 
 - **Bootstrap**
 # Program in Execution
 
+## Login and Sign Up
+![Login](ChillsScreenshots/Login.png)
+![Sign Up](ChillsScreenshots/Signup.png)
+
+## Manage Profile
+![Profile](ChillsScreenshots/ManageProfile.png)
+
+## Menu
+![Menu](ChillsScreenshots/Menu.png)
+
+## What a manager can do
+### Add Menu Item
+![Add menu item](ChillsScreenshots/AddMenuItem.png)
+### Manage Inventory
+![Manage Inventory](ChillsScreenshots/Inventory.png)
+### See all the accounts
+![All Accounts](ChillsScreenshots/ManagerAccounts.png)
+### See all the orders
+![All Orders](ChillsScreenshots/ManagerOrders.png)
+## Orders Part
+![Order Screen](ChillsScreenshots/OrderScreen.png)
+![Orders History](ChillsScreenshots/OrdersHistory.png)
+
+## What kitchen staff see
+![Claim Order](ChillsScreenshots/KitchenStaffScreen.png)
+![Working Order](ChillsScreenshots/KitchenStaffScreen2.png)
