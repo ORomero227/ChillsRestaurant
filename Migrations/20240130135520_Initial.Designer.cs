@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChillsRestaurant.Migrations
 {
     [DbContext(typeof(ChillsRestaurantDBContext))]
-    [Migration("20231120191819_OrderItem cambio en order")]
-    partial class OrderItemcambioenorder
+    [Migration("20240130135520_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -151,7 +151,7 @@ namespace ChillsRestaurant.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("663513f7-9fe4-4874-b3f8-8094ee681b51"),
+                            Id = new Guid("4c1485dd-1349-4a4d-91c3-5341e9972c42"),
                             Category = "Burgers",
                             Description = "Delicious burger with meat, lettuce, tomato and cheese.",
                             Name = "Classic Burger",
@@ -161,7 +161,7 @@ namespace ChillsRestaurant.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b4316847-d474-4639-a790-b53cf7362115"),
+                            Id = new Guid("f2be0431-1deb-4552-98fc-12f2d4ca9d95"),
                             Category = "Burgers",
                             Description = "Delicious vegan burger.",
                             Name = "Veggie Burger",
@@ -171,7 +171,7 @@ namespace ChillsRestaurant.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e89fa3cd-641a-4c15-af1c-1013d17819db"),
+                            Id = new Guid("6b63fca1-042d-4e81-ac5e-4b0d0e554d55"),
                             Category = "Burgers",
                             Description = "Delicious burger with bbq sauce and bacon.",
                             Name = "BBQ Burger",
@@ -181,7 +181,7 @@ namespace ChillsRestaurant.Migrations
                         },
                         new
                         {
-                            Id = new Guid("37fec382-3352-4e47-98c7-cfc99c7527a9"),
+                            Id = new Guid("085f1693-4bb1-4e3e-b7f8-1e456cbf9053"),
                             Category = "Pasta",
                             Description = "Delicious Spaghetti with red sauce.",
                             Name = "Spaghetti",
@@ -191,7 +191,7 @@ namespace ChillsRestaurant.Migrations
                         },
                         new
                         {
-                            Id = new Guid("1efc8489-8acd-4d1c-a6e8-2bcef0c514d4"),
+                            Id = new Guid("b35ec1f6-9a00-4657-8f4c-6f7b66f573b3"),
                             Category = "Pasta",
                             Description = "Delicious Alfredo Pasta with white sauce.",
                             Name = "Alfredo Pasta",
@@ -201,7 +201,7 @@ namespace ChillsRestaurant.Migrations
                         },
                         new
                         {
-                            Id = new Guid("8eb59f21-ba8e-4d87-acea-73840d0b53d5"),
+                            Id = new Guid("11412a04-7280-4eb8-8c2a-aba2da38671d"),
                             Category = "Pasta",
                             Description = "Delicious Lasagna with cream cheese, cheese and red sauce.",
                             Name = "Lasagna",
@@ -211,7 +211,7 @@ namespace ChillsRestaurant.Migrations
                         },
                         new
                         {
-                            Id = new Guid("fe2f2532-1d22-498c-977b-073460456278"),
+                            Id = new Guid("903ed428-1099-4ff3-9306-019219c45114"),
                             Category = "Desserts",
                             Description = "Delicious cheesecake with cream cheese, fresh cheese",
                             Name = "Cheescake",
@@ -221,7 +221,7 @@ namespace ChillsRestaurant.Migrations
                         },
                         new
                         {
-                            Id = new Guid("731104e9-6f67-4903-b1c0-24cf61ccdff6"),
+                            Id = new Guid("8f2e55dd-9208-4631-8c43-f4dd3a42dbaa"),
                             Category = "Desserts",
                             Description = "Delicious chocolate cake",
                             Name = "Chocolate Cake",
@@ -237,6 +237,10 @@ namespace ChillsRestaurant.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("EmployeeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("GeneralStatus")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -249,10 +253,15 @@ namespace ChillsRestaurant.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<decimal>("orderTotal")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Orders");
                 });
@@ -428,6 +437,15 @@ namespace ChillsRestaurant.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("ChillsRestaurant.Models.Order", b =>
+                {
+                    b.HasOne("ChillsRestaurant.Models.ApplicationUser", "User")
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("ChillsRestaurant.Models.OrderItem", b =>
                 {
                     b.HasOne("ChillsRestaurant.Models.MenuItem", "menuItem")
@@ -496,6 +514,11 @@ namespace ChillsRestaurant.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ChillsRestaurant.Models.ApplicationUser", b =>
+                {
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("ChillsRestaurant.Models.Order", b =>

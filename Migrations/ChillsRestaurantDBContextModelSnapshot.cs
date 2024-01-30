@@ -148,7 +148,7 @@ namespace ChillsRestaurant.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("378c7a5f-1601-473e-9107-f0cbcaeaa2b3"),
+                            Id = new Guid("4c1485dd-1349-4a4d-91c3-5341e9972c42"),
                             Category = "Burgers",
                             Description = "Delicious burger with meat, lettuce, tomato and cheese.",
                             Name = "Classic Burger",
@@ -158,7 +158,7 @@ namespace ChillsRestaurant.Migrations
                         },
                         new
                         {
-                            Id = new Guid("2fed4630-6f79-4d39-8b2e-ea1ed4a97021"),
+                            Id = new Guid("f2be0431-1deb-4552-98fc-12f2d4ca9d95"),
                             Category = "Burgers",
                             Description = "Delicious vegan burger.",
                             Name = "Veggie Burger",
@@ -168,7 +168,7 @@ namespace ChillsRestaurant.Migrations
                         },
                         new
                         {
-                            Id = new Guid("70241cd3-1a21-48c8-8332-85ae64ac1b18"),
+                            Id = new Guid("6b63fca1-042d-4e81-ac5e-4b0d0e554d55"),
                             Category = "Burgers",
                             Description = "Delicious burger with bbq sauce and bacon.",
                             Name = "BBQ Burger",
@@ -178,7 +178,7 @@ namespace ChillsRestaurant.Migrations
                         },
                         new
                         {
-                            Id = new Guid("9e921cda-1d9a-436e-a007-afcfeae0fe42"),
+                            Id = new Guid("085f1693-4bb1-4e3e-b7f8-1e456cbf9053"),
                             Category = "Pasta",
                             Description = "Delicious Spaghetti with red sauce.",
                             Name = "Spaghetti",
@@ -188,7 +188,7 @@ namespace ChillsRestaurant.Migrations
                         },
                         new
                         {
-                            Id = new Guid("60895f92-d4ff-4fc3-9f82-3bc52240be6f"),
+                            Id = new Guid("b35ec1f6-9a00-4657-8f4c-6f7b66f573b3"),
                             Category = "Pasta",
                             Description = "Delicious Alfredo Pasta with white sauce.",
                             Name = "Alfredo Pasta",
@@ -198,7 +198,7 @@ namespace ChillsRestaurant.Migrations
                         },
                         new
                         {
-                            Id = new Guid("5afda841-9152-461b-9fba-7384d5b68183"),
+                            Id = new Guid("11412a04-7280-4eb8-8c2a-aba2da38671d"),
                             Category = "Pasta",
                             Description = "Delicious Lasagna with cream cheese, cheese and red sauce.",
                             Name = "Lasagna",
@@ -208,7 +208,7 @@ namespace ChillsRestaurant.Migrations
                         },
                         new
                         {
-                            Id = new Guid("3d298713-520f-405f-9ddc-c02e8ac6a742"),
+                            Id = new Guid("903ed428-1099-4ff3-9306-019219c45114"),
                             Category = "Desserts",
                             Description = "Delicious cheesecake with cream cheese, fresh cheese",
                             Name = "Cheescake",
@@ -218,7 +218,7 @@ namespace ChillsRestaurant.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c9710902-deeb-4944-becf-4541b0737e58"),
+                            Id = new Guid("8f2e55dd-9208-4631-8c43-f4dd3a42dbaa"),
                             Category = "Desserts",
                             Description = "Delicious chocolate cake",
                             Name = "Chocolate Cake",
